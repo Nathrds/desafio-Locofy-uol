@@ -1,7 +1,5 @@
 # Desafio Locofy 🚗
 Desafio de projeto individual do estágio CompassUOL - Locofy Sample Project.
-<br/>
-Página de locação de carros com cadastro.
 
 <br/>
 
