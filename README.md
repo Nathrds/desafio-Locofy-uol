@@ -13,4 +13,4 @@ Página de locação de carros com cadastro.
 <br/>
 
 ## Screenshots
-![image](https://github.com/Nathrds/desafio-Locofy-uol/assets/106173624/36ebfe00-21fa-46dc-8ce4-22886a5657aa)
+![image](https://github.com/Nathrds/desafio-Locofy-uol/assets/106173624/090e55eb-367b-44f9-8442-b24f0b4ae7c9)
