@@ -1,4 +1,4 @@
-import {AppBar, Avatar, Box, Button, IconButton, Toolbar} from '@mui/material'
+import {AppBar, Box, IconButton, Tab, Tabs, Toolbar} from '@mui/material'
 
 const useStyles = {
     logo: {
@@ -15,7 +15,13 @@ const useStyles = {
 
 const Navbar: React.FC = () => {
   return (
-        <AppBar sx={{boxShadow: 0, bgcolor:'#242424'}}>
+        <AppBar 
+        sx={{
+            boxShadow: 0, 
+            bgcolor:'#242424',
+            position:'sticky'
+            }}
+            >
             <Toolbar 
             sx={{
                 display: 'flex',
@@ -30,35 +36,35 @@ const Navbar: React.FC = () => {
                     />
                 </Box>
                 <Box>
-                    <Button 
-                    sx={{color: '#fff', 
-                    ":hover": {color: '#FBA403'},
-                    paddingRight: '30px'
-                    }}
-                    >
-                        Home
-                    </Button>
-                    <Button 
-                    sx={{color: '#fff',
-                    ":hover": {color: '#FBA403'},
-                    paddingRight: '30px'
-                    }}
-                    >
-                        Getting a Taxi
-                    </Button>
-                    <Button sx={{color: '#fff',
-                    ":hover": {color: '#FBA403'},
-                    paddingRight: '30px'
-                    }}
-                    >
-                        Mobile App
-                    </Button>
-                    <Button sx={{color: '#fff',
-                    ":hover": {color: '#FBA403'}
-                    }}
-                    >
-                        Contact Us
-                    </Button>
+                    <Tabs>
+                        <Tab 
+                        sx={{color: '#fff', 
+                        ":hover": {color: '#FBA403'},
+                        paddingRight: '30px'
+                        }}
+                        label="Home"
+                        />
+                        <Tab 
+                        sx={{color: '#fff',
+                        ":hover": {color: '#FBA403'},
+                        paddingRight: '30px'
+                        }}
+                        label="Getting a Taxi"
+                        />
+                        <Tab 
+                        sx={{color: '#fff',
+                        ":hover": {color: '#FBA403'},
+                        paddingRight: '30px'
+                        }}
+                        label="Mobile App"
+                        />
+                        <Tab 
+                        sx={{color: '#fff',
+                        ":hover": {color: '#FBA403'}
+                        }}
+                        label="Contact Us"
+                        />
+                    </Tabs>
                 </Box>
                 <Box display="flex" flexDirection="row" alignItems="center">
                     <IconButton>
@@ -67,11 +73,9 @@ const Navbar: React.FC = () => {
                     <Box margin="0px 20px">
                         <img src="../../public/seperator.png" alt="Seperator image"/>
                     </Box>
-                    <Avatar
-                        alt='User Avatar'
-                        src='../../public/user-avatar.png'
-                        style={useStyles.avatar}
-                    />
+                    <IconButton>
+                        <img src="../../public/user-avatar.png" alt="Image User Avatar" style={useStyles.avatar}/>
+                    </IconButton>
                 </Box>
             </Toolbar>
         </AppBar>
