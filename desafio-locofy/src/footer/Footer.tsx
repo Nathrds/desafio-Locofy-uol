@@ -14,14 +14,15 @@ const Footer: React.FC = () => {
     flexDirection={'row'}
     justifyContent={'space-between'}
     >
-        <Box>
+        <Box sx={{marginRight: '10%'}}>
             <img src="../../public/Logo-white.png" alt="Logo My Ride" style={useStyles.logoFooter}/>
             <Typography
             sx={{
                 color: '#B3B3B3',
                 fontSize: '16px',
                 fontWeight: '400',
-                margin: '16px 0'
+                margin: '16px 0',
+                width: '314px'
             }}
             >
                 MyRide Inc., 2nd Floor, New York, NY 10016
@@ -38,8 +39,14 @@ const Footer: React.FC = () => {
                 </IconButton>
             </Box>
         </Box>
-        <Container sx={{display: "flex", flexDirection:"row"}}>
-            <Box marginRight={'20%'}>
+        <Container 
+        sx={{
+            display: "flex", 
+            flexDirection:"row",
+            padding: '0px'
+            }}
+            >
+            <Box marginRight={'15%'}>
                 <Typography 
                 variant="h5"
                 color="#fff"
@@ -77,7 +84,7 @@ const Footer: React.FC = () => {
                     </Typography>
                 </Box>
             </Box>
-            <Box marginRight={'20%'}>
+            <Box marginRight={'15%'}>
                 <Typography 
                 variant="h5"
                 color="#fff"
@@ -115,7 +122,7 @@ const Footer: React.FC = () => {
                     </Typography>
                 </Box>
             </Box>
-            <Box marginRight={'20%'}>
+            <Box marginRight={'15%'}>
                 <Typography 
                 variant="h5"
                 color="#fff"
