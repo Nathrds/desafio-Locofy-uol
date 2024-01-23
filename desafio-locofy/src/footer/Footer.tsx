@@ -1,12 +1,6 @@
 import { Box, Container, IconButton, Typography } from "@mui/material"
 
-const useStyles = {
-    logoFooter: {
-        maxWidth: '100%'
-    }
-}
-
-const Footer: React.FC = () => {
+const Footer = () => {
   return (
     <Box 
     margin={'40px 80px'} 
@@ -14,14 +8,18 @@ const Footer: React.FC = () => {
     flexDirection={'row'}
     justifyContent={'space-between'}
     >
-        <Box sx={{marginRight: '10%'}}>
-            <img src="../../public/Logo-white.png" alt="Logo My Ride" style={useStyles.logoFooter}/>
+        <Box sx={{marginRight: '2%'}}>
+            <img 
+            src="../../public/Logo-white.png" 
+            alt="Logo My Ride" 
+            width={'43%'}
+            />
             <Typography
             sx={{
                 color: '#B3B3B3',
                 fontSize: '16px',
                 fontWeight: '400',
-                margin: '16px 0',
+                margin: '16px 0px',
                 width: '314px'
             }}
             >
@@ -29,13 +27,22 @@ const Footer: React.FC = () => {
             </Typography>
             <Box>
                 <IconButton sx={{padding: 0}}>
-                    <img src="../../public/Facebook.png" alt="Icon Facebook" />
+                    <img 
+                    src="../../public/Facebook.png" 
+                    alt="Icon Facebook" 
+                    />
                 </IconButton>
-                <IconButton sx={{margin: '0 24.38px', padding: 0}}>
-                    <img src="../../public/Instagram.png" alt="Icon Instagram" />
+                <IconButton sx={{margin: '0px 24.38px', padding: 0}}>
+                    <img 
+                    src="../../public/Instagram.png" 
+                    alt="Icon Instagram" 
+                    />
                 </IconButton>
                 <IconButton sx={{padding: 0}}>
-                    <img src="../../public/Twitter.png" alt="Icon Twitter" />
+                    <img 
+                    src="../../public/Twitter.png" 
+                    alt="Icon Twitter" 
+                    />
                 </IconButton>
             </Box>
         </Box>

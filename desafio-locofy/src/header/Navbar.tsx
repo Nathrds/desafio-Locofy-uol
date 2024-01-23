@@ -1,19 +1,6 @@
 import {AppBar, Box, IconButton, Tab, Tabs, Toolbar} from '@mui/material'
 
-const useStyles = {
-    logo: {
-        maxWidth: '100%'
-    },
-    notificationIcon: {
-        maxWidth:'100%'
-    },
-    avatar: {
-        marginLeft: '5px',
-        maxWidth: '100%'
-    }
-}
-
-const Navbar: React.FC = () => {
+const Navbar = () => {
   return (
         <AppBar 
         sx={{
@@ -32,7 +19,7 @@ const Navbar: React.FC = () => {
                     <img 
                     src="../../public/Logo-myride.png" 
                     alt="Logo My Ride"
-                    style={useStyles.logo} 
+                    width={'100%'} 
                     />
                 </Box>
                 <Box>
@@ -66,15 +53,30 @@ const Navbar: React.FC = () => {
                         />
                     </Tabs>
                 </Box>
-                <Box display="flex" flexDirection="row" alignItems="center">
+                <Box 
+                display="flex" 
+                flexDirection="row" 
+                alignItems="center"
+                >
                     <IconButton>
-                        <img src="../../public/bell-icon.png" alt="Icon bell notification" style={useStyles.notificationIcon}/>
+                        <img 
+                        src="../../public/bell-icon.png" 
+                        alt="Icon bell notification" 
+                        width={'100%'}
+                        />
                     </IconButton>
                     <Box margin="0px 20px">
-                        <img src="../../public/seperator.png" alt="Seperator image"/>
+                        <img 
+                        src="../../public/seperator.png" 
+                        alt="Seperator image"
+                        />
                     </Box>
                     <IconButton>
-                        <img src="../../public/user-avatar.png" alt="Image User Avatar" style={useStyles.avatar}/>
+                        <img 
+                        src="../../public/user-avatar.png" 
+                        alt="Image User Avatar" 
+                        width={'100%'}
+                        />
                     </IconButton>
                 </Box>
             </Toolbar>

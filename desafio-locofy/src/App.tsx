@@ -7,7 +7,7 @@ import BestInClassRides from './whyShouldYouRide/BestInClassRides'
 import DriveForm from './driveWithMyRide/DriveForm'
 import Footer from './footer/Footer'
 
-const App: React.FC = () => {
+const App = () => {
 
   return (
     <>
