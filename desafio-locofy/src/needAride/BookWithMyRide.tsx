@@ -1,11 +1,69 @@
-import { Box, Button, IconButton, Typography } from "@mui/material"
-
-import {StyledFieldPickup, StyledFieldDestination} from './StylesField'
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material"
+import { styled } from '@mui/material/styles'
 
 import CloseIcon from '@mui/icons-material/Close'
 import SearchIcon from '@mui/icons-material/Search'
 
+const StyledFieldPickup = styled(TextField)(() => ({   
+  '& .MuiOutlinedInput-root': { 
+    color: '#fff',    
 
+    '& fieldset': {       
+      borderColor: 'rgba(255, 255, 255, 0.23)',    
+    },
+
+    '&:hover fieldset': {       
+      borderColor: 'rgba(255, 255, 255, 0.23)',    
+    },  
+  }, 
+
+  '& .MuiFormLabel-root': {       
+    color: 'rgba(255, 255, 255, 0.50)',    
+  },
+
+  '& .MuiIconButton-root': {
+    color: 'rgba(255, 255, 255, 0.50)',
+  },
+}));
+
+const StyledFieldDestination = styled(TextField)(() => ({   
+  '& .MuiOutlinedInput-root': {
+    color: '#fff',
+
+    '& fieldset': {
+      borderColor: 'rgba(255, 255, 255, 0.23)',
+    },
+
+    '&:hover fieldset': {
+      borderColor: '#FBA403',
+    },
+
+    '&:focus fieldset': {
+      borderColor: '#FBA403',
+    },
+  },
+
+  '& .MuiFormLabel-root': {
+    color: 'rgba(255, 255, 255, 0.50)',
+  },
+
+  '&:hover .MuiFormLabel-root': {
+    color: '#FBA403',
+  },
+
+  '& .MuiInputLabel-shrink': {
+    color: '#FBA403 !important',
+    borderColor: '#FBA403 !important',
+  },
+
+  '& .MuiIconButton-root': {
+    color: 'rgba(255, 255, 255, 0.50)',
+  },
+
+  '&:hover .MuiIconButton-root': {
+    color: '#FBA403',
+  },
+}));
 
 const BookWithMyRide = () => {
   return (
@@ -80,7 +138,7 @@ const BookWithMyRide = () => {
             InputProps={{
               readOnly: true,
               endAdornment: (
-                <IconButton>
+                <IconButton aria-label="Close Icon">
                   <CloseIcon 
                   fontSize="small" 
                   />
@@ -94,7 +152,7 @@ const BookWithMyRide = () => {
           fullWidth
           InputProps={{
             endAdornment: (
-              <IconButton>
+              <IconButton aria-label="Close Icon">
                 <CloseIcon 
                 fontSize="small" 
                 />
