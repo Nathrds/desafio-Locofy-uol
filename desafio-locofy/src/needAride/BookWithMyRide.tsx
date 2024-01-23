@@ -1,6 +1,10 @@
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material"
+import { Box, Button, IconButton, Typography } from "@mui/material"
+
+import {StyledFieldPickup, StyledFieldDestination} from './StylesField'
+
 import CloseIcon from '@mui/icons-material/Close'
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from '@mui/icons-material/Search'
+
 
 
 const BookWithMyRide = () => {
@@ -15,7 +19,7 @@ const BookWithMyRide = () => {
       <img 
       src="../../src/assets/Image-needAride.png" 
       alt="Image of a yellow car on a street with the My Ride logo"
-      style={{width:'30%'}} 
+      style={{maxWidth:'100%'}} 
       />
       <Box
       display='flex'
@@ -69,34 +73,30 @@ const BookWithMyRide = () => {
             Find a ride now
           </Typography>
 
-          <TextField
+          <StyledFieldPickup
             label="Your Pickup"
             defaultValue="Current Location"
             fullWidth
-            focused
             InputProps={{
               readOnly: true,
               endAdornment: (
                 <IconButton>
                   <CloseIcon 
                   fontSize="small" 
-                  style={{color: 'rgba(255, 255, 255, 0.23)'}}
                   />
                 </IconButton>
               )
             }}
             margin="normal"
           />
-          <TextField
+          <StyledFieldDestination
           label="Your Destination" 
           fullWidth
-          sx={{":focus": {borderColor: "#FBA403 !important"}}} 
           InputProps={{
             endAdornment: (
               <IconButton>
                 <CloseIcon 
                 fontSize="small" 
-                sx={{color: 'rgba(255, 255, 255, 0.23)'}}
                 />
               </IconButton>
             )
@@ -109,7 +109,7 @@ const BookWithMyRide = () => {
           sx={{
             marginTop: '16px', 
             height: '56px', 
-            bgcolor: "#FBA403 !important"
+            backgroundColor: "#FBA403 !important"
           }}
           startIcon={<SearchIcon/>}
           disableElevation
