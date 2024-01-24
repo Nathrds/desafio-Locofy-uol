@@ -16,9 +16,7 @@ const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText}) 
             <CardMedia 
                 image={imageSrc}
                 title={title}
-                sx={{
-                    maxWidth: '100%'
-                }}
+                sx={{height: '200px'}}
             />
             <CardContent>
                 <Typography
@@ -42,9 +40,8 @@ const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText}) 
             <CardActions>
                 <Button
                 variant='text'
-                sx={{
-                    color: '#FBA403 !important'
-                }}
+                aria-label="Learn More"
+                sx={{color: '#FBA403 !important'}}
                 >
                     {buttonText}
                 </Button>

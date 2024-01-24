@@ -2,6 +2,11 @@ import { Box, CardContent, Typography } from "@mui/material"
 import Card from './Card'
 
 const BestInClassRides = () => {
+  const learnMoreClick = (carType: string) => {
+    const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(`${carType} car`)}`;
+    window.open(googleSearchUrl, '_blank');
+  }
+
   return (
     <Box
     display='flex'
@@ -38,6 +43,7 @@ const BestInClassRides = () => {
           title="Basic"
           description="The best balance of price and comfort. You will not go wrong with our basic rides."
           buttonText="Learn More"
+          onClick={() => learnMoreClick('Basic')}
         />
         <Card
           imageSrc="../assets/card-image-comfort.png"
