@@ -1,7 +1,7 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { Box, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import { styled } from '@mui/material/styles'
 
-const StyledField = styled(TextField)(() => ({   
+const StyledForm = styled(TextField)(() => ({   
   '& .MuiOutlinedInput-root': { 
     color: '#fff',    
 
@@ -66,24 +66,42 @@ const DriveForm = () => {
       </Box>
 
       <Box>
-        <StyledField
+        <StyledForm
         label="Full Name"
         fullWidth
-        sx={{margin: '24px auto'}}
+        margin="normal"
         />
-
-        <StyledField
+        
+        <StyledForm
         label="Email Address"
         fullWidth
-        sx={{margin: '24px auto'}}
+        margin="normal"
         />
 
-        <FormControl fullWidth>
-          <InputLabel>Country</InputLabel>
+        <FormControl fullWidth margin="normal">
+          <InputLabel sx={{color: '#666666DE'}}>Country</InputLabel>
           <Select label='Country'>
             <MenuItem disabled value="">Select Country</MenuItem>
-            <MenuItem value="Singapore">Singapore</MenuItem>
           </Select>
+        </FormControl>
+
+        <FormControl fullWidth margin="normal">
+          <InputLabel sx={{color: '#666666DE'}}>City</InputLabel>
+          <Select label='Country'>
+            <MenuItem disabled value="">Select City</MenuItem>
+          </Select>
+        </FormControl>
+
+        <StyledForm
+        label="Referral Code"
+        fullWidth
+        margin="normal"
+        />
+
+        {/* <FormControlLabel label="I drive my own car" /> */}
+
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Car Type</InputLabel>
         </FormControl>
       </Box>
     </form>
