@@ -1,8 +1,29 @@
-import { Box, Button, FormControl, FormControlLabel, InputLabel, MenuItem, RadioGroup, Select, Switch, TextField, Typography } from "@mui/material"
+import { 
+  Box, 
+  Button, 
+  FormControl, 
+  FormControlLabel, 
+  FormLabel, 
+  InputLabel, 
+  MenuItem,  
+  RadioGroup,
+  Select, 
+  Switch, 
+  TextField, 
+  Typography 
+} from "@mui/material"
+import { Sheet} from '@mui/joy'
+
 import { styled } from '@mui/material/styles'
-import {useForm, SubmitHandler} from 'react-hook-form'
-import axios from "axios"
-import CardFormTypeCar from "./CardFormTypeCar"
+
+import { useForm, SubmitHandler} from 'react-hook-form'
+// import {useState} from 'react'
+// import axios from "axios"
+import * as yup from 'yup'
+
+import { yupResolver } from '@hookform/resolvers/yup'
+
+import dataBase from '../utils/db.json'
 
 const StyledForm = styled(TextField)(() => ({   
   '& .MuiOutlinedInput-root': { 
@@ -22,6 +43,16 @@ const StyledForm = styled(TextField)(() => ({
   }
 }));
 
+const schema = yup.object().shape({
+  fullName: yup.string().required('Invalid Full Name').matches(/^[^\d]+ [^\d]+$/, 'Invalid format'),
+  emailAddress: yup.string().email('Invalid email address').required('Email Address is required'),
+  country: yup.string().required('Country is required'),
+  city: yup.string().required('City is required'),
+  referralCode: yup.string().matches(/^[A-Z]{3}-\d{3}$/, 'Invalid format'),
+  driveMyOwnCar: yup.boolean(),
+  carType: yup.string().required('Select a vehicle type'),
+})
+
 interface FormData {
   fullName: string;
   emailAddress: string;
@@ -34,21 +65,15 @@ interface FormData {
 }
 
 const DriveForm: React.FC = () => {
-
-  const carOptions = [
-    {title: "Sedan"},
-    {title: "SUV/Van"},
-    {title: "Semi Luxury"},
-    {title: "Luxury Car"}
-  ]
+  // const [loading, setLoading] = useState(false)
+  // const [apiError, setApiError] = useState<string | null>(null)
 
   const {
-    handleSubmit,
-    control,
     register,
     formState: {errors},
-    setValue,
+    // setValue,
   } = useForm <FormData>({
+    resolver: yupResolver(schema),
     defaultValues: {
       driveMyOwnCar: false,
       carType: '',
@@ -56,27 +81,34 @@ const DriveForm: React.FC = () => {
     }
   })
 
-  const onSubmit: SubmitHandler <FormData> = async (data) => {
-    try {
-      await axios.post ("http://localhost:5173/db.json", data)
-      
-        const response = await axios.get("http://localhost:5173/db.json")
-        console.log(response.data)
+  // const onSubmit: SubmitHandler <FormData> = async (data) => {
+  //   setApiError(null);
+  //   setLoading(true);
 
-    } catch (error) {
-      console.error("API request error: ", error)
-    }
-  }
+  //   try {
+  //     const response = await axios.get('http://localhost:3000')
+  //     const countryList = response.data
 
-  const handleDriveMyOwnCarCarChange = (checked: boolean) => {
-    setValue('driveMyOwnCar', checked);
-    setValue('carType', '');
-    setValue('carModel', '')
-  }
+  //     Object.keys(countryList).forEach((country) => {
+  //       console.log(country)
+  //       const cities = countryList[country]
+  //       cities.forEach((city) => {
+  //         console.log(city)
+  //       })
+  //     })
+
+  //       setLoading(false)
+  //   } catch (error) {
+  //     console.error("API request error: ", error)
+  //     setApiError('Error connecting to the server. Please try again later')
+  //     setLoading(false)
+  //   }
+  // }
+
 
   return (
     <form 
-    onSubmit={handleSubmit(onSubmit)}
+    // onSubmit={handleSubmit(onSubmit)}
     style={{
       backgroundColor: '#282828',
       borderRadius: '10px',
@@ -125,7 +157,7 @@ const DriveForm: React.FC = () => {
         label="Full Name"
         fullWidth
         margin="normal"
-        {...register('fullName', { required: 'Full Name is required'})}
+        {...register('fullName')}
         error={!!errors.fullName}
         helperText={errors.fullName?.message}
         />
@@ -134,7 +166,7 @@ const DriveForm: React.FC = () => {
         label="Email Address"
         fullWidth
         margin="normal"
-        {...register('emailAddress', { required: 'Email Address is required'})}
+        {...register('emailAddress')}
         error={!!errors.emailAddress}
         helperText={errors.emailAddress?.message}
         />
@@ -143,7 +175,7 @@ const DriveForm: React.FC = () => {
           <InputLabel sx={{color: '#666666DE'}} htmlFor="country">Country</InputLabel>
           <Select 
           label='Country'
-          {...register('country', { required: 'Country is required'})}
+          {...register('country')}
           error={!!errors.country}
           displayEmpty
           >
@@ -153,6 +185,7 @@ const DriveForm: React.FC = () => {
             >
               Select Country
             </MenuItem>
+            <MenuItem value="Singapore">Singapore</MenuItem>
           </Select>
         </FormControl>
 
@@ -160,10 +193,9 @@ const DriveForm: React.FC = () => {
           <InputLabel sx={{color: '#666666DE'}}>City</InputLabel>
           <Select 
           label='City'
-          {...register('city', { required: 'City is required'})}
+          {...register('city')}
           error={!!errors.city}
           displayEmpty
-          disabled={!control.getValues('country')}
           >
             <MenuItem 
             disabled 
@@ -178,7 +210,7 @@ const DriveForm: React.FC = () => {
         label="Referral Code"
         fullWidth
         margin="normal"
-        {...register('referralCode', {pattern: /^[A-Z]{3}-\d{3}$/, message: 'Invalid format'})}
+        {...register('referralCode')}
         error={!!errors.referralCode}
         helperText={errors.referralCode?.message}
         />
@@ -188,55 +220,97 @@ const DriveForm: React.FC = () => {
         control={<Switch {...register("driveMyOwnCar")} color="primary"/>} 
         />
 
-        {control.getValues('driveMyOwnCar') && (
-        <FormControl fullWidth margin="normal">
-          <InputLabel htmlFor="carType">Car Type</InputLabel>
-          <Select 
-          label="Car Type"
-          {...register('carType', { required: 'Select a vehicle type' })}
-          error={!!errors.carType}
-          displayEmpty
-          >
-            <MenuItem value="" disabled>
-              Select Car Type
-            </MenuItem>
-            {carOptions.map((car) => (
-              <MenuItem key={car.title} value={car.title}>
-                {car.title}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        )}
-
-        {control.getValues('driveMyOwnCar') && (
-          <FormControl fullWidth>
-            <InputLabel htmlFor="carModel">Car Model</InputLabel>
-            <Select
-            label="Car Model"
-            {...register('carModel')} 
-            displayEmpty
-            >
-              <MenuItem value="" disabled>
-                Select Car Model
-              </MenuItem>
-            </Select>
-          </FormControl>
-        )}
-
         <RadioGroup
-        {...register('carType', { required: 'Select a vehicle type' })}
+        aria-label="Car Type"
+        defaultValue="Sedan"
+        name="CarType"
+        sx={{
+          flexDirection: 'row',
+          gap: 2,
+        }}
+        {...register('carType')}
         error={!!errors.carType}
-        >
-          {carOptions.map((car) =>(
-            <FormControlLabel 
-            label={car.title}
-            key={car.title}
-            value={car.title} 
-            control={<Radio />}
-            />
-          ))}
-        </RadioGroup>
+      >
+        {['Sedan'].map((value) => (
+          <Sheet
+            key={value}
+            variant="outlined"
+            sx={{
+              borderRadius: 'md',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 1.5,
+              p: 2,
+              minWidth: 120,
+              background: 'transparent'
+            }}
+          >
+            <Box><img src="../../src/assets/Card Image-sedan.png" alt="Sedan Car" /></Box>
+            <FormLabel htmlFor={value}>{value}</FormLabel>
+          </Sheet>
+        ))}
+
+        {['SUV/Van'].map((value) => (
+          <Sheet
+            key={value}
+            variant="outlined"
+            sx={{
+              borderRadius: 'md',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 1.5,
+              p: 2,
+              minWidth: 120,
+              background: 'transparent'
+            }}
+          >
+            <Box><img src="../../src/assets/Card Image-van.png" alt="SUV/Van Car" /></Box>
+            <FormLabel htmlFor={value}>{value}</FormLabel>
+          </Sheet>
+        ))}
+
+        {['Semi Luxury'].map((value) => (
+          <Sheet
+            key={value}
+            variant="outlined"
+            sx={{
+              borderRadius: 'md',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 1.5,
+              p: 2,
+              minWidth: 120,
+              background: 'transparent'
+            }}
+          >
+            <Box><img src="../../src/assets/Card Image-semiLuxury.png" alt="Semi Luxury Car" /></Box>
+            <FormLabel htmlFor={value}>{value}</FormLabel>
+          </Sheet>
+        ))}
+
+      {['Luxury Car'].map((value) => (
+          <Sheet
+            key={value}
+            variant="outlined"
+            sx={{
+              borderRadius: 'md',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 1.5,
+              p: 2,
+              minWidth: 120,
+              background: 'transparent'
+            }}
+          >
+            <Box><img src="../../src/assets/Card Image-luxury.png" alt=" Luxury Car" /></Box>
+            <FormLabel htmlFor={value}>{value}</FormLabel>
+          </Sheet>
+        ))}
+      </RadioGroup>
 
         <Button
         type="submit"
