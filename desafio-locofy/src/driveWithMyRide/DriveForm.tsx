@@ -1,9 +1,8 @@
 import { Box, Button, FormControl, FormControlLabel, InputLabel, MenuItem, RadioGroup, Select, Switch, TextField, Typography } from "@mui/material"
 import { styled } from '@mui/material/styles'
-import {useForm, SubmitHandler, Controller} from 'react-hook-form'
+import {useForm, SubmitHandler} from 'react-hook-form'
 import axios from "axios"
 import CardFormTypeCar from "./CardFormTypeCar"
-import { useState } from "react"
 
 const StyledForm = styled(TextField)(() => ({   
   '& .MuiOutlinedInput-root': { 
@@ -35,8 +34,13 @@ interface FormData {
 }
 
 const DriveForm: React.FC = () => {
-  const [loading, setLoading] = useState();
-  const [apiError, setApiError] = useState <string | null> (null)
+
+  const carOptions = [
+    {title: "Sedan"},
+    {title: "SUV/Van"},
+    {title: "Semi Luxury"},
+    {title: "Luxury Car"}
+  ]
 
   const {
     handleSubmit,
@@ -53,21 +57,21 @@ const DriveForm: React.FC = () => {
   })
 
   const onSubmit: SubmitHandler <FormData> = async (data) => {
-    setApiError(null);
-    setLoading(true);
+    try {
+      await axios.post ("http://localhost:5173/db.json", data)
+      
+        const response = await axios.get("http://localhost:5173/db.json")
+        console.log(response.data)
+
+    } catch (error) {
+      console.error("API request error: ", error)
+    }
   }
 
-  try {
-    await axios.post ("http://localhost:5173/db.json", data)
-    setTimeout(() => {
-      const response = axios.get("http://localhost:5173/db.json")
-      console.log(response.data)
-      setLoading(false)
-    }, 1000)
-  } catch (error) {
-    console.error("API request error: ", error)
-    setApiError('Error connecting to the server. Please try again later');
-    setLoading(false);
+  const handleDriveMyOwnCarCarChange = (checked: boolean) => {
+    setValue('driveMyOwnCar', checked);
+    setValue('carType', '');
+    setValue('carModel', '')
   }
 
   return (
@@ -122,6 +126,8 @@ const DriveForm: React.FC = () => {
         fullWidth
         margin="normal"
         {...register('fullName', { required: 'Full Name is required'})}
+        error={!!errors.fullName}
+        helperText={errors.fullName?.message}
         />
         
         <StyledForm
@@ -129,6 +135,8 @@ const DriveForm: React.FC = () => {
         fullWidth
         margin="normal"
         {...register('emailAddress', { required: 'Email Address is required'})}
+        error={!!errors.emailAddress}
+        helperText={errors.emailAddress?.message}
         />
 
         <FormControl fullWidth margin="normal">
@@ -136,8 +144,15 @@ const DriveForm: React.FC = () => {
           <Select 
           label='Country'
           {...register('country', { required: 'Country is required'})}
+          error={!!errors.country}
+          displayEmpty
           >
-            <MenuItem disabled value="">Select Country</MenuItem>
+            <MenuItem 
+            disabled 
+            value=""
+            >
+              Select Country
+            </MenuItem>
           </Select>
         </FormControl>
 
@@ -146,8 +161,16 @@ const DriveForm: React.FC = () => {
           <Select 
           label='City'
           {...register('city', { required: 'City is required'})}
+          error={!!errors.city}
+          displayEmpty
+          disabled={!control.getValues('country')}
           >
-            <MenuItem disabled value="">Select City</MenuItem>
+            <MenuItem 
+            disabled 
+            value=""
+            >
+              Select City
+            </MenuItem>
           </Select>
         </FormControl>
 
@@ -156,6 +179,8 @@ const DriveForm: React.FC = () => {
         fullWidth
         margin="normal"
         {...register('referralCode', {pattern: /^[A-Z]{3}-\d{3}$/, message: 'Invalid format'})}
+        error={!!errors.referralCode}
+        helperText={errors.referralCode?.message}
         />
 
         <FormControlLabel 
@@ -169,6 +194,8 @@ const DriveForm: React.FC = () => {
           <Select 
           label="Car Type"
           {...register('carType', { required: 'Select a vehicle type' })}
+          error={!!errors.carType}
+          displayEmpty
           >
             <MenuItem value="" disabled>
               Select Car Type
@@ -199,6 +226,7 @@ const DriveForm: React.FC = () => {
 
         <RadioGroup
         {...register('carType', { required: 'Select a vehicle type' })}
+        error={!!errors.carType}
         >
           {carOptions.map((car) =>(
             <FormControlLabel 
