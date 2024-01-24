@@ -8,7 +8,7 @@ const Footer = () => {
     flexDirection={'row'}
     justifyContent={'space-between'}
     >
-        <Box sx={{marginRight: '2%'}}>
+        <Box sx={{marginRight: '6%'}}>
             <img 
             src="../../public/Logo-white.png" 
             alt="Logo My Ride" 

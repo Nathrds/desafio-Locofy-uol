@@ -12,7 +12,7 @@ const BestInClassRides = () => {
     display='flex'
     flexDirection='column'
     alignItems='center'
-    margin={'59px 58px'}
+    padding={'59px 58px'}
     >
       <Typography
       variant="h4"

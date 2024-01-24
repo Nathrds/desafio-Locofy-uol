@@ -11,13 +11,14 @@ interface CardProps {
 const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText, onClick}) => {
   return (
     <Box 
-    width='307px'
+    width='344px'
     >
         <MuiCard sx={{backgroundColor: '#383838', margin: '12px'}}>
             <CardMedia 
-                image={imageSrc}
-                title={title}
-                sx={{height: '200px'}}
+            component="img"
+            image={(`../../src/assets/${imageSrc}`)}
+            title={title}
+            sx={{height: '200px'}}
             />
             <CardContent>
                 <Typography
@@ -38,11 +39,11 @@ const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText, o
                     {description}
                 </Typography>
             </CardContent>
-            <CardActions>
+            <CardActions sx={{display: 'flex', justifyContent: 'right'}}>
                 <Button
                 variant='text'
                 aria-label="Learn More"
-                sx={{color: '#FBA403 !important'}}
+                sx={{color: '#FBA403 !important', ":hover": {background: 'transparent'}}}
                 onClick={onClick}
                 >
                     {buttonText}

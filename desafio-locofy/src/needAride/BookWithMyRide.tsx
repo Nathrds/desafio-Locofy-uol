@@ -72,17 +72,16 @@ const BookWithMyRide = () => {
     alignItems='center'
     flexDirection='row'
     justifyContent='center'
-    margin={'74px 89px'}
+    padding={'74px 89px'}
     >
       <img 
       src="../../src/assets/Image-needAride.png" 
       alt="Image of a yellow car on a street with the My Ride logo"
-      style={{maxWidth:'100%'}} 
+      style={{maxWidth:'100%', marginRight: '42px'}} 
       />
       <Box
       display='flex'
       flexDirection='column'
-      marginLeft='42px'
       >
         <Typography
         variant="h4"
