@@ -5,9 +5,10 @@ interface CardProps {
     description: string;
     imageSrc: string;
     buttonText: string;
+    onClick: () => void;
 }
 
-const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText}) => {
+const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText, onClick}) => {
   return (
     <Box 
     width='307px'
@@ -42,6 +43,7 @@ const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText}) 
                 variant='text'
                 aria-label="Learn More"
                 sx={{color: '#FBA403 !important'}}
+                onClick={onClick}
                 >
                     {buttonText}
                 </Button>

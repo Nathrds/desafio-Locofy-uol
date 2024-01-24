@@ -50,18 +50,21 @@ const BestInClassRides = () => {
           title="Comfort"
           description="If comfort is your priority, this is the ride for you. It’s spacious and packed with features."
           buttonText="Learn More"
+          onClick={() => learnMoreClick('Comfort')}
         />
         <Card
           imageSrc="../assets/card-image-business.png"
           title="Business"
           description="Do you want to travel around the city in style? Make sure to select or business class rides."
           buttonText="Learn More"
+          onClick={() => learnMoreClick('Business')}
         />
         <Card
           imageSrc="../assets/card-image-deluxe.png"
           title="Deluxe"
           description="The best ride for luxury and comfort. No compromises here. You’ll surely get what you pay for."
           buttonText="Learn More"
+          onClick={() => learnMoreClick('Deluxe')}
         />
       </CardContent>
     </Box>
