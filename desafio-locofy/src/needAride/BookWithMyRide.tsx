@@ -72,7 +72,9 @@ const BookWithMyRide = () => {
     alignItems='center'
     flexDirection='row'
     justifyContent='center'
-    padding={'74px 89px'}
+    padding={'74px 0 89px 0'}
+    minHeight='100vh'
+    sx={{boxSizing: 'border-box'}}
     >
       <img 
       src="../../src/assets/Image-needAride.png" 
