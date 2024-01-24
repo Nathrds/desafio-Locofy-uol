@@ -1,5 +1,9 @@
-import { Box, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { Box, Button, FormControl, FormControlLabel, InputLabel, MenuItem, RadioGroup, Select, Switch, TextField, Typography } from "@mui/material"
 import { styled } from '@mui/material/styles'
+import {useForm, SubmitHandler, Controller} from 'react-hook-form'
+import axios from "axios"
+import CardFormTypeCar from "./CardFormTypeCar"
+import { useState } from "react"
 
 const StyledForm = styled(TextField)(() => ({   
   '& .MuiOutlinedInput-root': { 
@@ -19,9 +23,56 @@ const StyledForm = styled(TextField)(() => ({
   }
 }));
 
-const DriveForm = () => {
+interface FormData {
+  fullName: string;
+  emailAddress: string;
+  country: string;
+  city: string;
+  referralCode: string;
+  driveMyOwnCar: boolean;
+  carType: string;
+  carModel: string;
+}
+
+const DriveForm: React.FC = () => {
+  const [loading, setLoading] = useState();
+  const [apiError, setApiError] = useState <string | null> (null)
+
+  const {
+    handleSubmit,
+    control,
+    register,
+    formState: {errors},
+    setValue,
+  } = useForm <FormData>({
+    defaultValues: {
+      driveMyOwnCar: false,
+      carType: '',
+      carModel: '',
+    }
+  })
+
+  const onSubmit: SubmitHandler <FormData> = async (data) => {
+    setApiError(null);
+    setLoading(true);
+  }
+
+  try {
+    await axios.post ("http://localhost:5173/db.json", data)
+    setTimeout(() => {
+      const response = axios.get("http://localhost:5173/db.json")
+      console.log(response.data)
+      setLoading(false)
+    }, 1000)
+  } catch (error) {
+    console.error("API request error: ", error)
+    setApiError('Error connecting to the server. Please try again later');
+    setLoading(false);
+  }
+
   return (
     <form 
+    onSubmit={handleSubmit(onSubmit)}
     style={{
       backgroundColor: '#282828',
       borderRadius: '10px',
@@ -70,24 +121,32 @@ const DriveForm = () => {
         label="Full Name"
         fullWidth
         margin="normal"
+        {...register('fullName', { required: 'Full Name is required'})}
         />
         
         <StyledForm
         label="Email Address"
         fullWidth
         margin="normal"
+        {...register('emailAddress', { required: 'Email Address is required'})}
         />
 
         <FormControl fullWidth margin="normal">
-          <InputLabel sx={{color: '#666666DE'}}>Country</InputLabel>
-          <Select label='Country'>
+          <InputLabel sx={{color: '#666666DE'}} htmlFor="country">Country</InputLabel>
+          <Select 
+          label='Country'
+          {...register('country', { required: 'Country is required'})}
+          >
             <MenuItem disabled value="">Select Country</MenuItem>
           </Select>
         </FormControl>
 
         <FormControl fullWidth margin="normal">
           <InputLabel sx={{color: '#666666DE'}}>City</InputLabel>
-          <Select label='Country'>
+          <Select 
+          label='City'
+          {...register('city', { required: 'City is required'})}
+          >
             <MenuItem disabled value="">Select City</MenuItem>
           </Select>
         </FormControl>
@@ -96,13 +155,67 @@ const DriveForm = () => {
         label="Referral Code"
         fullWidth
         margin="normal"
+        {...register('referralCode', {pattern: /^[A-Z]{3}-\d{3}$/, message: 'Invalid format'})}
         />
 
-        {/* <FormControlLabel label="I drive my own car" /> */}
+        <FormControlLabel 
+        label="I drive my own car"
+        control={<Switch {...register("driveMyOwnCar")} color="primary"/>} 
+        />
 
+        {control.getValues('driveMyOwnCar') && (
         <FormControl fullWidth margin="normal">
-          <InputLabel>Car Type</InputLabel>
+          <InputLabel htmlFor="carType">Car Type</InputLabel>
+          <Select 
+          label="Car Type"
+          {...register('carType', { required: 'Select a vehicle type' })}
+          >
+            <MenuItem value="" disabled>
+              Select Car Type
+            </MenuItem>
+            {carOptions.map((car) => (
+              <MenuItem key={car.title} value={car.title}>
+                {car.title}
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
+        )}
+
+        {control.getValues('driveMyOwnCar') && (
+          <FormControl fullWidth>
+            <InputLabel htmlFor="carModel">Car Model</InputLabel>
+            <Select
+            label="Car Model"
+            {...register('carModel')} 
+            displayEmpty
+            >
+              <MenuItem value="" disabled>
+                Select Car Model
+              </MenuItem>
+            </Select>
+          </FormControl>
+        )}
+
+        <RadioGroup
+        {...register('carType', { required: 'Select a vehicle type' })}
+        >
+          {carOptions.map((car) =>(
+            <FormControlLabel 
+            label={car.title}
+            key={car.title}
+            value={car.title} 
+            control={<Radio />}
+            />
+          ))}
+        </RadioGroup>
+
+        <Button
+        type="submit"
+        variant="contained"
+        >
+          Submit
+        </Button>
       </Box>
     </form>
   )
