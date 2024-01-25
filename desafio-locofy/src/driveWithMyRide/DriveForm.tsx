@@ -293,6 +293,7 @@ const DriveForm: React.FC = () => {
           displayEmpty
           onChange={handleChangeCity}
           value={selectCity}
+          disabled={selectCountry === "" ? true : false}
           sx={{
             color: "white",
             "& .MuiOutlinedInput-notchedOutline": {
