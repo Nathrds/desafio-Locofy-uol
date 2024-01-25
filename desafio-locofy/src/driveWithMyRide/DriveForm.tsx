@@ -17,14 +17,16 @@ import { Sheet} from '@mui/joy'
 
 import { styled } from '@mui/material/styles'
 
-import { useForm, SubmitHandler} from 'react-hook-form'
-// import {useState} from 'react'
+import { useForm} from 'react-hook-form'
+
 // import axios from "axios"
+
 import * as yup from 'yup'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import dataBase from '../utils/db.json'
+
 import { useEffect, useState } from "react"
 
 const StyledForm = styled(TextField)(() => ({   
@@ -67,13 +69,10 @@ interface FormData {
 }
 
 const DriveForm: React.FC = () => {
-  // const [loading, setLoading] = useState(false)
-  // const [apiError, setApiError] = useState<string | null>(null)
 
   const {
     register,
     formState: {errors},
-    // setValue,
   } = useForm <FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -82,32 +81,6 @@ const DriveForm: React.FC = () => {
       carModel: '',
     }
   })
-
-  // const onSubmit: SubmitHandler <FormData> = async (data) => {
-  //   setApiError(null);
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await axios.get('http://localhost:3000')
-  //     const countryList = response.data
-
-  //     Object.keys(countryList).forEach((country) => {
-  //       console.log(country)
-  //       const cities = countryList[country]
-  //       cities.forEach((city) => {
-  //         console.log(city)
-  //       })
-  //     })
-
-  //       setLoading(false)
-  //   } catch (error) {
-  //     console.error("API request error: ", error)
-  //     setApiError('Error connecting to the server. Please try again later')
-  //     setLoading(false)
-  //   }
-  // }
-
-  // const [initialCountry, setInitialCountry] = useState<string | null>('Singapore')
 
   const [countryCity, setCountryCity] = useState<typeof dataBase>()
   const [allCountry, setAllCountry] = useState<Array<string>>([])
@@ -158,7 +131,6 @@ const DriveForm: React.FC = () => {
 
   return (
     <form 
-    // onSubmit={handleSubmit(onSubmit)}
     style={{
       backgroundColor: '#282828',
       borderRadius: '10px',
@@ -225,7 +197,6 @@ const DriveForm: React.FC = () => {
           <InputLabel sx={{color: '#666666DE'}} htmlFor="country">Country</InputLabel>
           <Select 
           label='Country'
-          // {...register('country')}
           error={!!errors.country}
           displayEmpty
           onChange={handleChangeCountry}
