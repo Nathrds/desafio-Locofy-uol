@@ -1,0 +1,40 @@
+
+.inputRadioControl input {
+    position: absolute;
+    left: -9999px;
+}
+
+.inputRadioControl label {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    width: 147px;
+    height: 80px;
+    border: 1px solid orange;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.inputRadioControl label svg path {
+    fill: #FBA403;
+}
+
+.inputRadioControl label span {
+display: block;
+color: #fff;
+}
+
+.inputRadioControl input:checked + label {
+background-color: #FBA403;
+}
+
+.inputRadioControl input:checked + label svg path {
+fill: #242424;
+}
+
+.inputRadioControl input:checked + label span {
+color: #242424;
+}
+

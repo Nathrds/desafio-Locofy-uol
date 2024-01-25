@@ -1,5 +1,24 @@
 {
   "cars": [
-
+    {
+      "id": "97dc",
+      "driveMyOwnCar": true,
+      "carType": "van",
+      "fullName": "Lucas Silva",
+      "emailAddress": "luca@gmail.com",
+      "city": "Belo Horizonte",
+      "referralCode": "CCC-888",
+      "country": "Brazil"
+    },
+    {
+      "id": "53df",
+      "driveMyOwnCar": true,
+      "carType": "sedan",
+      "fullName": "Jose JOse",
+      "emailAddress": "jose@gmail.com",
+      "city": "Draria",
+      "referralCode": "DFE-896",
+      "country": "Algeria"
+    }
   ]
 }
