@@ -18,7 +18,7 @@ import { Sheet} from '@mui/joy'
 
 import { styled } from '@mui/material/styles'
 
-import {useForm} from 'react-hook-form'
+import {Controller, useForm} from 'react-hook-form'
 
 import * as yup from 'yup'
 
@@ -55,7 +55,7 @@ const schema = yup.object().shape({
   city: yup.string().required('Invalid city'),
   referralCode: yup.string().matches(/^[A-Z]{3}-\d{3}$/, 'Invalid code'),
   driveMyOwnCar: yup.boolean(),
-  carType: yup.string().required('Select a vehicle type'),
+  carType: yup.string(),
 })
 
 interface FormData {
@@ -66,7 +66,6 @@ interface FormData {
   referralCode: string;
   driveMyOwnCar: boolean;
   carType: string;
-  carModel: string;
 }
 
 const DriveForm: React.FC = () => {
@@ -74,13 +73,13 @@ const DriveForm: React.FC = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: {errors},
   } = useForm <FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
       driveMyOwnCar: false,
       carType: '',
-      carModel: '',
     }
   })
 
@@ -90,6 +89,7 @@ const DriveForm: React.FC = () => {
     setCarTypeSwitch(event.target.checked)
   }
 
+  console.log(errors)
 
   const [countryCity, setCountryCity] = useState<typeof dataBase>()
   const [allCountry, setAllCountry] = useState<Array<string>>([])
@@ -110,8 +110,6 @@ const DriveForm: React.FC = () => {
       const cities = countryCity[country]
       setAllCity(cities)
   }
-
-  console.log(allCountry)
 
   function handleChangeCity (event: SelectChangeEvent) {
     const city = event.target.value as string
@@ -220,36 +218,45 @@ const DriveForm: React.FC = () => {
 
         <FormControl fullWidth margin="normal">
           <InputLabel sx={{color: '#666666DE'}} htmlFor="country">Country</InputLabel>
-          <Select 
-          label='Country'
-          error={!!errors.country}
-          displayEmpty
-          onChange={handleChangeCountry}
-          value={selectCountry}
-          sx={{
-            color: "white",
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "white",
+          <Controller
+          name='country'
+          control={control}
+          render={({field}) => (
+            <Select 
+            label='Country'
+            error={!!errors.country}
+            displayEmpty
+            onChange={(e) => {
+              handleChangeCountry(e)
+              field.onChange(e)
+            }}
+            value={selectCountry}
+            sx={{
               color: "white",
-            },
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#FBA403 !important",
-              color: "white !important",
-            },
-            "& input": {
-              color: "white",
-            },
-            "& label": {
-              color: "secondary.labelColor",
-            },
-          }}
-          > 
-            {allCountry.map((country, index) => 
-                <MenuItem value={country} key={index}>
-                {country}
-                </MenuItem>
-              )}
-          </Select>
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+                color: "white",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#FBA403 !important",
+                color: "white !important",
+              },
+              "& input": {
+                color: "white",
+              },
+              "& label": {
+                color: "secondary.labelColor",
+              },
+            }}
+            > 
+              {allCountry.map((country, index) => 
+                  <MenuItem value={country} key={index}>
+                  {country}
+                  </MenuItem>
+                )}
+            </Select>
+          )}
+          />
           {errors.country && (
             <ErrorForm label={errors.country?.message || "Invalid coutry"} />
           )}
