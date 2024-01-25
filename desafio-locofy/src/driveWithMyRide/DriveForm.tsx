@@ -2,8 +2,7 @@ import {
   Box, 
   Button, 
   FormControl, 
-  FormControlLabel, 
-  FormHelperText, 
+  FormControlLabel,  
   FormLabel, 
   InputLabel, 
   MenuItem,  
@@ -19,7 +18,7 @@ import { Sheet} from '@mui/joy'
 
 import { styled } from '@mui/material/styles'
 
-import { useForm} from 'react-hook-form'
+import {useForm} from 'react-hook-form'
 
 import * as yup from 'yup'
 
@@ -84,6 +83,13 @@ const DriveForm: React.FC = () => {
       carModel: '',
     }
   })
+
+  const [carTypeSwitch, setCarTypeSwitch] = useState(true)
+
+  function handleOnChangeSwitch(event: React.ChangeEvent<HTMLInputElement>) {
+    setCarTypeSwitch(event.target.checked)
+  }
+
 
   const [countryCity, setCountryCity] = useState<typeof dataBase>()
   const [allCountry, setAllCountry] = useState<Array<string>>([])
@@ -303,7 +309,14 @@ const DriveForm: React.FC = () => {
 
         <FormControlLabel 
         label="I drive my own car"
-        control={<Switch {...register("driveMyOwnCar")} color="primary" />}
+        control={
+          <Switch 
+          {...register("driveMyOwnCar")} 
+          color="primary"        
+          checked={carTypeSwitch}
+          onChange={handleOnChangeSwitch}
+          />
+        }
         labelPlacement="start"
         sx={{
           display: "flex",
@@ -328,145 +341,147 @@ const DriveForm: React.FC = () => {
         }}
         />
 
-        <Box>
-          <Typography
-          variant="h5"
-          sx={{
-            color: '#FBA403',
-            fontSize: '20px',
-            fontWeight:'500',
-            marginBottom: '16px',
-          }}
+        {carTypeSwitch && (
+          <Box>
+            <Typography
+            variant="h5"
+            sx={{
+              color: '#FBA403',
+              fontSize: '20px',
+              fontWeight:'500',
+              marginBottom: '16px',
+            }}
+            >
+              Select your car type
+            </Typography>
+            <RadioGroup
+            aria-label="Car Type"
+            defaultValue="Sedan"
+            name="CarType"
+            sx={{
+              flexDirection: 'row',
+              gap: 2,
+            }}
+            {...register('carType')}
+            error={!!errors.carType}
           >
-            Select your car type
-          </Typography>
-          <RadioGroup
-          aria-label="Car Type"
-          defaultValue="Sedan"
-          name="CarType"
-          sx={{
-            flexDirection: 'row',
-            gap: 2,
-          }}
-          {...register('carType')}
-          error={!!errors.carType}
-        >
-          {['Sedan'].map((value) => (
-            <Sheet
-              key={value}
-              variant="outlined"
-              sx={{
-                borderRadius: 'md',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 1.5,
-                p: 2,
-                minWidth: 120,
-                background: 'transparent',
-                border: isClickedSedan ? '1px solid #FBA403' : '1px solid "#fff',
-                backgroundColor: isClickedSedan ? '#FBA403' : 'transparent'
-              }}
-              onClick={handleClickSedan}
-            >
-              <Box>
-                <img 
-                src={isClickedSedan ? "../../src/assets/sedan-black.png" : "../../src/assets/Card Image-sedan.png"} 
-                alt="Sedan Car" 
-                />
+            {['Sedan'].map((value) => (
+              <Sheet
+                key={value}
+                variant="outlined"
+                sx={{
+                  borderRadius: 'md',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  p: 2,
+                  minWidth: 120,
+                  background: 'transparent',
+                  border: isClickedSedan ? '1px solid #FBA403' : '1px solid "#fff',
+                  backgroundColor: isClickedSedan ? '#FBA403' : 'transparent'
+                }}
+                onClick={handleClickSedan}
+              >
+                <Box>
+                  <img 
+                  src={isClickedSedan ? "../../src/assets/sedan-black.png" : "../../src/assets/Card Image-sedan.png"} 
+                  alt="Sedan Car" 
+                  />
+                  </Box>
+                <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
+              </Sheet>
+            ))}
+
+            {['SUV/Van'].map((value) => (
+              <Sheet
+                key={value}
+                variant="outlined"
+                sx={{
+                  borderRadius: 'md',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  p: 2,
+                  minWidth: 120,
+                  background: 'transparent',
+                  border: isClickedVan ? '1px solid #FBA403' : '1px solid "#fff',
+                  backgroundColor: isClickedVan ? '#FBA403' : 'transparent'
+                }}
+                onClick={handleClickVan}
+              >
+                <Box>
+                  <img 
+                  src={isClickedVan ? "../../src/assets/van-black.png" : "../../src/assets/Card Image-van.png"} 
+                  alt="SUV/Van Car" 
+                  />
                 </Box>
-              <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
-            </Sheet>
-          ))}
+                <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
+              </Sheet>
+            ))}
 
-          {['SUV/Van'].map((value) => (
-            <Sheet
-              key={value}
-              variant="outlined"
-              sx={{
-                borderRadius: 'md',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 1.5,
-                p: 2,
-                minWidth: 120,
-                background: 'transparent',
-                border: isClickedVan ? '1px solid #FBA403' : '1px solid "#fff',
-                backgroundColor: isClickedVan ? '#FBA403' : 'transparent'
-              }}
-              onClick={handleClickVan}
-            >
-              <Box>
-                <img 
-                src={isClickedVan ? "../../src/assets/van-black.png" : "../../src/assets/Card Image-van.png"} 
-                alt="SUV/Van Car" 
-                />
-              </Box>
-              <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
-            </Sheet>
-          ))}
+            {['Semi Luxury'].map((value) => (
+              <Sheet
+                key={value}
+                variant="outlined"
+                sx={{
+                  borderRadius: 'md',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  p: 2,
+                  minWidth: 120,
+                  background: 'transparent',
+                  border: isClickedSemiLuxury ? '1px solid #FBA403' : '1px solid "#fff',
+                  backgroundColor: isClickedSemiLuxury ? '#FBA403' : 'transparent'
+                }}
+                onClick={handleClickSemiLuxury}
+              >
+                <Box>
+                  <img 
+                  src={isClickedSemiLuxury ? "../../src/assets/semiLuxury-black.png" : "../../src/assets/Card Image-semiLuxury.png"}
+                  alt="Semi Luxury Car" 
+                  />
+                  </Box>
+                <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
+              </Sheet>
+            ))}
 
-          {['Semi Luxury'].map((value) => (
-            <Sheet
-              key={value}
-              variant="outlined"
-              sx={{
-                borderRadius: 'md',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 1.5,
-                p: 2,
-                minWidth: 120,
-                background: 'transparent',
-                border: isClickedSemiLuxury ? '1px solid #FBA403' : '1px solid "#fff',
-                backgroundColor: isClickedSemiLuxury ? '#FBA403' : 'transparent'
-              }}
-              onClick={handleClickSemiLuxury}
-            >
-              <Box>
-                <img 
-                src={isClickedSemiLuxury ? "../../src/assets/semiLuxury-black.png" : "../../src/assets/Card Image-semiLuxury.png"}
-                alt="Semi Luxury Car" 
-                />
+          {['Luxury Car'].map((value) => (
+              <Sheet
+                key={value}
+                variant="outlined"
+                sx={{
+                  borderRadius: 'md',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 1.5,
+                  p: 2,
+                  minWidth: 120,
+                  background: "transparent",
+                  border: isClickedLuxury ? '1px solid #FBA403' : '1px solid "#fff',
+                  backgroundColor: isClickedLuxury ? '#FBA403' : 'transparent'
+                }}
+                onClick={handleClickLuxury}
+              >
+                <Box>
+                  <img 
+                  src={isClickedLuxury ? "../../src/assets/luxury-black.png" : "../../src/assets/Card Image-luxury.png"}
+                  alt=" Luxury Car" 
+                  />
                 </Box>
-              <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
-            </Sheet>
-          ))}
-
-        {['Luxury Car'].map((value) => (
-            <Sheet
-              key={value}
-              variant="outlined"
-              sx={{
-                borderRadius: 'md',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 1.5,
-                p: 2,
-                minWidth: 120,
-                background: "transparent",
-                border: isClickedLuxury ? '1px solid #FBA403' : '1px solid "#fff',
-                backgroundColor: isClickedLuxury ? '#FBA403' : 'transparent'
-              }}
-              onClick={handleClickLuxury}
-            >
-              <Box>
-                <img 
-                src={isClickedLuxury ? "../../src/assets/luxury-black.png" : "../../src/assets/Card Image-luxury.png"}
-                alt=" Luxury Car" 
-                />
-              </Box>
-              <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
-            </Sheet>
-          ))}
-        </RadioGroup>
-        {errors.carType && (
-          <ErrorForm label={errors.carType?.message || "Select a vehicle type"} />
-        )}
-      </Box>
+                <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
+              </Sheet>
+            ))}
+          </RadioGroup>
+          {errors.carType && (
+            <ErrorForm label={errors.carType?.message || "Select a vehicle type"} />
+          )}
+        </Box>
+      )}
 
         <Button
         type="submit"
