@@ -3,6 +3,7 @@ import {
   Button, 
   FormControl, 
   FormControlLabel, 
+  FormHelperText, 
   FormLabel, 
   InputLabel, 
   MenuItem,  
@@ -13,19 +14,20 @@ import {
   TextField, 
   Typography 
 } from "@mui/material"
+
 import { Sheet} from '@mui/joy'
 
 import { styled } from '@mui/material/styles'
 
 import { useForm} from 'react-hook-form'
 
-// import axios from "axios"
-
 import * as yup from 'yup'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import dataBase from '../utils/db.json'
+
+import ErrorForm from './ErrorsHelperText'
 
 import { useEffect, useState } from "react"
 
@@ -48,11 +50,11 @@ const StyledForm = styled(TextField)(() => ({
 }));
 
 const schema = yup.object().shape({
-  fullName: yup.string().required('Invalid Full Name').matches(/^[^\d]+ [^\d]+$/, 'Invalid format'),
-  emailAddress: yup.string().email('Invalid email address').required('Email Address is required'),
-  country: yup.string().required('Country is required'),
-  city: yup.string().required('City is required'),
-  referralCode: yup.string().matches(/^[A-Z]{3}-\d{3}$/, 'Invalid format'),
+  fullName: yup.string().required('Invalid name').matches(/^[^\d]+ [^\d]+$/, 'Invalid name'),
+  emailAddress: yup.string().email('Invalid email').required('Invalid email'),
+  country: yup.string().required('Invalid country'),
+  city: yup.string().required('Invalid city'),
+  referralCode: yup.string().matches(/^[A-Z]{3}-\d{3}$/, 'Invalid code'),
   driveMyOwnCar: yup.boolean(),
   carType: yup.string().required('Select a vehicle type'),
 })
@@ -72,6 +74,7 @@ const DriveForm: React.FC = () => {
 
   const {
     register,
+    handleSubmit,
     formState: {errors},
   } = useForm <FormData>({
     resolver: yupResolver(schema),
@@ -129,8 +132,14 @@ const DriveForm: React.FC = () => {
     setIsClickedLuxury(!isClickedLuxury)
   }
 
+  function handleSubmitForm(data) {
+    console.log(data)
+  }
+
+
   return (
     <form 
+    onSubmit={handleSubmit(handleSubmitForm)}
     style={{
       backgroundColor: '#282828',
       borderRadius: '10px',
@@ -175,23 +184,33 @@ const DriveForm: React.FC = () => {
       </Box>
 
       <Box>
-        <StyledForm
-        label="Full Name"
+        <FormControl
         fullWidth
         margin="normal"
-        {...register('fullName')}
-        error={!!errors.fullName}
-        helperText={errors.fullName?.message}
-        />
+        >
+          <StyledForm
+          label="Full Name"
+          {...register('fullName')}
+          error={!!errors.fullName}
+          />
+          {errors.fullName && (
+            <ErrorForm label={errors.fullName?.message || "Invalid name"} />
+          )}
+        </FormControl>
         
-        <StyledForm
-        label="Email Address"
+        <FormControl
         fullWidth
         margin="normal"
-        {...register('emailAddress')}
-        error={!!errors.emailAddress}
-        helperText={errors.emailAddress?.message}
-        />
+        >
+          <StyledForm
+          label="Email Address"
+          {...register('emailAddress')}
+          error={!!errors.emailAddress}
+          />
+          {errors.emailAddress && (
+            <ErrorForm label={errors.emailAddress?.message || "Invalid email"} />
+          )}
+        </FormControl>
 
         <FormControl fullWidth margin="normal">
           <InputLabel sx={{color: '#666666DE'}} htmlFor="country">Country</InputLabel>
@@ -225,6 +244,9 @@ const DriveForm: React.FC = () => {
                 </MenuItem>
               )}
           </Select>
+          {errors.country && (
+            <ErrorForm label={errors.country?.message || "Invalid coutry"} />
+          )}
         </FormControl>
 
         <FormControl fullWidth margin="normal">
@@ -260,16 +282,24 @@ const DriveForm: React.FC = () => {
                 </MenuItem>
               )}
           </Select>
+          {errors.city && (
+            <ErrorForm label={errors.city?.message || "Invalid city"} />
+          )}
         </FormControl>
-
-        <StyledForm
-        label="Referral Code"
+        
+        <FormControl
         fullWidth
         margin="normal"
-        {...register('referralCode')}
-        error={!!errors.referralCode}
-        helperText={errors.referralCode?.message}
-        />
+        >
+          <StyledForm
+          label="Referral Code"
+          {...register('referralCode')}
+          error={!!errors.referralCode}
+          />
+          {errors.referralCode && (
+            <ErrorForm label={errors.referralCode?.message || "Invalid code"} />
+          )}
+        </FormControl>
 
         <FormControlLabel 
         label="I drive my own car"
@@ -298,140 +328,145 @@ const DriveForm: React.FC = () => {
         }}
         />
 
-        <Typography
-        variant="h5"
-        sx={{
-          color: '#FBA403',
-          fontSize: '20px',
-          fontWeight:'500',
-          marginBottom: '16px'
-        }}
+        <Box>
+          <Typography
+          variant="h5"
+          sx={{
+            color: '#FBA403',
+            fontSize: '20px',
+            fontWeight:'500',
+            marginBottom: '16px',
+          }}
+          >
+            Select your car type
+          </Typography>
+          <RadioGroup
+          aria-label="Car Type"
+          defaultValue="Sedan"
+          name="CarType"
+          sx={{
+            flexDirection: 'row',
+            gap: 2,
+          }}
+          {...register('carType')}
+          error={!!errors.carType}
         >
-          Select your car type
-        </Typography>
-        <RadioGroup
-        aria-label="Car Type"
-        defaultValue="Sedan"
-        name="CarType"
-        sx={{
-          flexDirection: 'row',
-          gap: 2,
-        }}
-        {...register('carType')}
-        error={!!errors.carType}
-      >
-        {['Sedan'].map((value) => (
-          <Sheet
-            key={value}
-            variant="outlined"
-            sx={{
-              borderRadius: 'md',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 1.5,
-              p: 2,
-              minWidth: 120,
-              background: 'transparent',
-              border: isClickedSedan ? '1px solid #FBA403' : '1px solid "#fff',
-              backgroundColor: isClickedSedan ? '#FBA403' : 'transparent'
-            }}
-            onClick={handleClickSedan}
-          >
-            <Box>
-              <img 
-              src={isClickedSedan ? "../../src/assets/sedan-black.png" : "../../src/assets/Card Image-sedan.png"} 
-              alt="Sedan Car" 
-              />
+          {['Sedan'].map((value) => (
+            <Sheet
+              key={value}
+              variant="outlined"
+              sx={{
+                borderRadius: 'md',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 1.5,
+                p: 2,
+                minWidth: 120,
+                background: 'transparent',
+                border: isClickedSedan ? '1px solid #FBA403' : '1px solid "#fff',
+                backgroundColor: isClickedSedan ? '#FBA403' : 'transparent'
+              }}
+              onClick={handleClickSedan}
+            >
+              <Box>
+                <img 
+                src={isClickedSedan ? "../../src/assets/sedan-black.png" : "../../src/assets/Card Image-sedan.png"} 
+                alt="Sedan Car" 
+                />
+                </Box>
+              <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
+            </Sheet>
+          ))}
+
+          {['SUV/Van'].map((value) => (
+            <Sheet
+              key={value}
+              variant="outlined"
+              sx={{
+                borderRadius: 'md',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 1.5,
+                p: 2,
+                minWidth: 120,
+                background: 'transparent',
+                border: isClickedVan ? '1px solid #FBA403' : '1px solid "#fff',
+                backgroundColor: isClickedVan ? '#FBA403' : 'transparent'
+              }}
+              onClick={handleClickVan}
+            >
+              <Box>
+                <img 
+                src={isClickedVan ? "../../src/assets/van-black.png" : "../../src/assets/Card Image-van.png"} 
+                alt="SUV/Van Car" 
+                />
               </Box>
-            <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
-          </Sheet>
-        ))}
+              <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
+            </Sheet>
+          ))}
 
-        {['SUV/Van'].map((value) => (
-          <Sheet
-            key={value}
-            variant="outlined"
-            sx={{
-              borderRadius: 'md',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 1.5,
-              p: 2,
-              minWidth: 120,
-              background: 'transparent',
-              border: isClickedVan ? '1px solid #FBA403' : '1px solid "#fff',
-              backgroundColor: isClickedVan ? '#FBA403' : 'transparent'
-            }}
-            onClick={handleClickVan}
-          >
-            <Box>
-              <img 
-              src={isClickedVan ? "../../src/assets/van-black.png" : "../../src/assets/Card Image-van.png"} 
-              alt="SUV/Van Car" 
-              />
-            </Box>
-            <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
-          </Sheet>
-        ))}
+          {['Semi Luxury'].map((value) => (
+            <Sheet
+              key={value}
+              variant="outlined"
+              sx={{
+                borderRadius: 'md',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 1.5,
+                p: 2,
+                minWidth: 120,
+                background: 'transparent',
+                border: isClickedSemiLuxury ? '1px solid #FBA403' : '1px solid "#fff',
+                backgroundColor: isClickedSemiLuxury ? '#FBA403' : 'transparent'
+              }}
+              onClick={handleClickSemiLuxury}
+            >
+              <Box>
+                <img 
+                src={isClickedSemiLuxury ? "../../src/assets/semiLuxury-black.png" : "../../src/assets/Card Image-semiLuxury.png"}
+                alt="Semi Luxury Car" 
+                />
+                </Box>
+              <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
+            </Sheet>
+          ))}
 
-        {['Semi Luxury'].map((value) => (
-          <Sheet
-            key={value}
-            variant="outlined"
-            sx={{
-              borderRadius: 'md',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 1.5,
-              p: 2,
-              minWidth: 120,
-              background: 'transparent',
-              border: isClickedSemiLuxury ? '1px solid #FBA403' : '1px solid "#fff',
-              backgroundColor: isClickedSemiLuxury ? '#FBA403' : 'transparent'
-            }}
-            onClick={handleClickSemiLuxury}
-          >
-            <Box>
-              <img 
-              src={isClickedSemiLuxury ? "../../src/assets/semiLuxury-black.png" : "../../src/assets/Card Image-semiLuxury.png"}
-              alt="Semi Luxury Car" 
-              />
+        {['Luxury Car'].map((value) => (
+            <Sheet
+              key={value}
+              variant="outlined"
+              sx={{
+                borderRadius: 'md',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 1.5,
+                p: 2,
+                minWidth: 120,
+                background: "transparent",
+                border: isClickedLuxury ? '1px solid #FBA403' : '1px solid "#fff',
+                backgroundColor: isClickedLuxury ? '#FBA403' : 'transparent'
+              }}
+              onClick={handleClickLuxury}
+            >
+              <Box>
+                <img 
+                src={isClickedLuxury ? "../../src/assets/luxury-black.png" : "../../src/assets/Card Image-luxury.png"}
+                alt=" Luxury Car" 
+                />
               </Box>
-            <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
-          </Sheet>
-        ))}
-
-      {['Luxury Car'].map((value) => (
-          <Sheet
-            key={value}
-            variant="outlined"
-            sx={{
-              borderRadius: 'md',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 1.5,
-              p: 2,
-              minWidth: 120,
-              background: "transparent",
-              border: isClickedLuxury ? '1px solid #FBA403' : '1px solid "#fff',
-              backgroundColor: isClickedLuxury ? '#FBA403' : 'transparent'
-            }}
-            onClick={handleClickLuxury}
-          >
-            <Box>
-              <img 
-              src={isClickedLuxury ? "../../src/assets/luxury-black.png" : "../../src/assets/Card Image-luxury.png"}
-              alt=" Luxury Car" 
-              />
-            </Box>
-            <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
-          </Sheet>
-        ))}
-      </RadioGroup>
+              <FormLabel style={{color:"#fff"}} htmlFor={value}>{value}</FormLabel>
+            </Sheet>
+          ))}
+        </RadioGroup>
+        {errors.carType && (
+          <ErrorForm label={errors.carType?.message || "Select a vehicle type"} />
+        )}
+      </Box>
 
         <Button
         type="submit"
@@ -442,6 +477,7 @@ const DriveForm: React.FC = () => {
           height: '56px', 
           marginTop: '24px'
         }}
+        disableElevation
         >
           Submit
         </Button>
