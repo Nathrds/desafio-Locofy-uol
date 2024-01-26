@@ -54,7 +54,12 @@ const StyledForm = styled(TextField)(() => ({
 
   "& .MuiFormLabel-root": {
     color: "#666666DE",
+    "&.Mui-focused": {
+      color: "#FBA403",
+      borderColor: "#FBA403 !important",
+    },
   },
+  
 }));
 
 const schema = yup.object().shape({
@@ -140,6 +145,10 @@ const DriveForm: React.FC = () => {
   function handleSubmitForm(data: FormData) {
     console.log(data);
 
+    const {carType, city, country, emailAddress, fullName, referralCode, driveMyOwnCar} = data
+
+    const carTypeText = driveMyOwnCar ? carType : "Car Type not selected"
+
     async function postCarsData() {
       async function postData() {
         const res = await fetch("http://localhost:3000/cars", {
@@ -147,7 +156,7 @@ const DriveForm: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...data, id: "1" }),
+          body: JSON.stringify({carType: carTypeText, city, country, emailAddress, fullName, referralCode, id: "1" }),
         });
         return res;
       }
@@ -482,6 +491,7 @@ const DriveForm: React.FC = () => {
               <Button
                 type="submit"
                 variant="contained"
+                aria-label="Submit"
                 sx={{
                   backgroundColor: "#FBA403 !important",
                   width: "200px",

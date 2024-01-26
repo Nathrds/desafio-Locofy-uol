@@ -3,10 +3,10 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useEffect, useState } from "react";
 
 interface SuccessScreenProps {
-    onClick: () => void
+  onClick: () => void;
 }
 
-const SuccessScreen = ({onClick}) => {
+const SuccessScreen = ({ onClick }) => {
   const [data, setData] = useState<FormData>();
 
   useEffect(() => {
@@ -24,11 +24,11 @@ const SuccessScreen = ({onClick}) => {
 
   useEffect(() => {
     if (data) {
-        fetch ("http://localhost:3000/cars/1", {
-            method: "delete"
-        })
+      fetch("http://localhost:3000/cars/1", {
+        method: "delete",
+      });
     }
-  }, [data])
+  }, [data]);
 
   return (
     <Box
@@ -45,24 +45,126 @@ const SuccessScreen = ({onClick}) => {
     >
       {data && (
         <>
-          <Box>
-            <CheckCircleIcon />
-            <Typography variant="h6">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginBottom="3%"
+          >
+            <CheckCircleIcon style={{ color: "#4baf4f", fontSize: "50" }} />
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#fff",
+                fontSize: "45px",
+                fontWeight: "700",
+              }}
+            >
               Welcome, {data.fullName.split(" ")[0]}
             </Typography>
           </Box>
 
-          <Typography variant="body2">
-            Full Name: {data.fullName}
-            Email Address: {data.emailAddress}
-            Country: {data.country}
-            City: {data.city}
-            Referral Code: {data.referralCode}
-            Drive My Own Car: {data.driveMyOwnCar ? true : false}
-            Car Type: {data.carType}
+          <Typography
+            variant="body2"
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "center",
+            }}
+          >
+            <Box display="flex" flexDirection="column">
+              <Typography
+                variant="body2"
+                color="#fff"
+                fontSize="16px"
+                margin='4% 0'
+              >
+                <span style={{ fontStyle: "italic", color: "#FBA403" }}>
+                  Full Name:
+                </span>{" "}
+                {data.fullName}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="#fff"
+                fontSize="16px"
+                margin='4% 0'
+              >
+                <span style={{ fontStyle: "italic", color: "#FBA403" }}>
+                  Email Address:
+                </span>{" "}
+                {data.emailAddress}
+              </Typography>
+            </Box>
+
+            <Box display="flex" flexDirection="column">
+              <Typography
+                variant="body2"
+                color="#fff"
+                fontSize="16px"
+                margin='6% 0'
+              >
+                <span style={{ fontStyle: "italic", color: "#FBA403" }}>
+                  Country:
+                </span>{" "}
+                {data.country}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="#fff"
+                fontSize="16px"
+                margin='6% 0'
+              >
+                <span style={{ fontStyle: "italic", color: "#FBA403" }}>
+                  City:
+                </span>{" "}
+                {data.city}
+              </Typography>
+            </Box>
+
+            <Box display="flex" flexDirection="column">
+              <Typography
+                variant="body2"
+                color="#fff"
+                fontSize="16px"
+                margin='4% 0'
+              >
+                <span style={{ fontStyle: "italic", color: "#FBA403" }}>
+                  Referral Code:
+                </span>{" "}
+                {data.referralCode}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="#fff"
+                fontSize="16px"
+                margin='4% 0'
+              >
+                <span style={{ fontStyle: "italic", color: "#FBA403" }}>
+                  Car Type:
+                </span>{" "}
+                {data.carType}
+              </Typography>
+            </Box>
           </Typography>
 
-          <Button onClick={onClick}>Submit a New Car</Button>
+          <Box display="flex" justifyContent="center">
+            <Button
+              onClick={onClick}
+              variant="contained"
+              aria-label="Submit a New Car"
+              disableElevation
+              sx={{
+                backgroundColor: "#FBA403 !important",
+                width: "200px",
+                height: "56px",
+                marginTop: "24px",
+              }}
+            >
+              Submit a New Car
+            </Button>
+          </Box>
         </>
       )}
     </Box>
@@ -70,33 +172,3 @@ const SuccessScreen = ({onClick}) => {
 };
 
 export default SuccessScreen;
-
-// import { useEffect } from "react"
-
-// interface SuccessProps {
-//     onClick?: () => void
-// }
-
-// const SuccessScreen: React.FC<SuccessProps> = ({onClick}) => {
-
-//     const clearFormData = () => {
-//         fetch ("http://localhost:3000/cars", {
-//             method: "DELETE"
-//         })
-//         .then((response) => response.json())
-//         .then(() => {
-//             console.log("Data clared successfully")
-//         })
-//         .catch((error) => {
-//             console.log("Error clearing data: ", error)
-//         })
-//     }
-
-//     useEffect(() => {
-//         clearFormData()
-//     }, [])
-//     }
-
-//   return <p>Aqui</p>
-
-// export default SuccessScreen
