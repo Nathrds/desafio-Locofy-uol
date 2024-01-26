@@ -107,9 +107,6 @@ const DriveForm: React.FC = () => {
     },
   });
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalErrorMessage, setModalErrorMessage] = useState("");
-
   const [carTypeSwitch, setCarTypeSwitch] = useState(true);
 
   function handleOnChangeSwitch(event: React.ChangeEvent<HTMLInputElement>) {
@@ -163,22 +160,22 @@ const DriveForm: React.FC = () => {
 
     async function postCarsData() {
       async function postData() {
-          const res = await fetch("http://localhost:3000/cars", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              carType: carTypeText,
-              city,
-              country,
-              emailAddress,
-              fullName,
-              referralCode,
-              id: "1",
-            }),
-          });
-          return res
+        const res = await fetch("http://localhost:3000/cars", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            carType: carTypeText,
+            city,
+            country,
+            emailAddress,
+            fullName,
+            referralCode,
+            id: "1",
+          }),
+        });
+        return res;
       }
 
       const response = await postData();
@@ -205,11 +202,13 @@ const DriveForm: React.FC = () => {
     <>
       {drivrerRegister ? (
         <>
-        <ModalError open={true}
-        errorMessage="Failed to submit the form. Please try again later."
-        onClose={() => setError(false)}
-        />
-          {" "}
+          {error && (
+            <ModalError
+              open={true}
+              errorMessage="Failed to submit the form. Please try again later."
+              onClose={() => setError(false)}
+            />
+          )}{" "}
           (
           <form
             onSubmit={handleSubmit(handleSubmitForm)}
@@ -233,7 +232,7 @@ const DriveForm: React.FC = () => {
 
               <Box display="flex" flexDirection="column">
                 <Typography
-                  variant="h6"
+                  variant="h5"
                   sx={{
                     fontSize: "27px",
                     color: "#FBA403",

@@ -1,18 +1,24 @@
 import { Box, Button, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useEffect, useState } from "react";
+import ModalError from "../modal/Modal"
 
 interface SuccessScreenProps {
   onClick: () => void;
 }
 
-const SuccessScreen: React.FC <SuccessScreenProps> = ({ onClick }) => {
+const SuccessScreen: React.FC<SuccessScreenProps> = ({ onClick }) => {
   const [data, setData] = useState<FormData>();
+
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchDriverData() {
       async function fetchData() {
         const response = await fetch("http://localhost:3000/cars/1");
+        if (!response.ok) {
+          setError(true)
+        }
         const data = await response.json();
         return data;
       }
@@ -43,6 +49,13 @@ const SuccessScreen: React.FC <SuccessScreenProps> = ({ onClick }) => {
         padding: "30px",
       }}
     >
+      {error && (
+        <ModalError
+          open={true}
+          errorMessage="Failed to submit the form. Please try again later."
+          onClose={() => setError(false)}
+        />
+      )}
       {data && (
         <>
           <Box
@@ -78,7 +91,7 @@ const SuccessScreen: React.FC <SuccessScreenProps> = ({ onClick }) => {
                 variant="body2"
                 color="#fff"
                 fontSize="16px"
-                margin='4% 0'
+                margin="4% 0"
               >
                 <span style={{ fontStyle: "italic", color: "#FBA403" }}>
                   Full Name:
@@ -89,7 +102,7 @@ const SuccessScreen: React.FC <SuccessScreenProps> = ({ onClick }) => {
                 variant="body2"
                 color="#fff"
                 fontSize="16px"
-                margin='4% 0'
+                margin="4% 0"
               >
                 <span style={{ fontStyle: "italic", color: "#FBA403" }}>
                   Email Address:
@@ -103,7 +116,7 @@ const SuccessScreen: React.FC <SuccessScreenProps> = ({ onClick }) => {
                 variant="body2"
                 color="#fff"
                 fontSize="16px"
-                margin='6% 0'
+                margin="6% 0"
               >
                 <span style={{ fontStyle: "italic", color: "#FBA403" }}>
                   Country:
@@ -114,7 +127,7 @@ const SuccessScreen: React.FC <SuccessScreenProps> = ({ onClick }) => {
                 variant="body2"
                 color="#fff"
                 fontSize="16px"
-                margin='6% 0'
+                margin="6% 0"
               >
                 <span style={{ fontStyle: "italic", color: "#FBA403" }}>
                   City:
@@ -128,7 +141,7 @@ const SuccessScreen: React.FC <SuccessScreenProps> = ({ onClick }) => {
                 variant="body2"
                 color="#fff"
                 fontSize="16px"
-                margin='4% 0'
+                margin="4% 0"
               >
                 <span style={{ fontStyle: "italic", color: "#FBA403" }}>
                   Referral Code:
@@ -139,7 +152,7 @@ const SuccessScreen: React.FC <SuccessScreenProps> = ({ onClick }) => {
                 variant="body2"
                 color="#fff"
                 fontSize="16px"
-                margin='4% 0'
+                margin="4% 0"
               >
                 <span style={{ fontStyle: "italic", color: "#FBA403" }}>
                   Car Type:
