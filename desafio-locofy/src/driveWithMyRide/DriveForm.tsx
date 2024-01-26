@@ -61,7 +61,8 @@ const StyledForm = styled(TextField)(() => ({
       borderColor: "#FBA403 !important",
     },
   },
-}));
+  }
+));
 
 const schema = yup.object().shape({
   fullName: yup
@@ -301,17 +302,17 @@ const DriveForm: React.FC = () => {
                       }}
                       value={selectCountry}
                       sx={{
-                        color: "white",
+                        color: "#fff",
                         "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "white",
-                          color: "white",
+                          borderColor: "#fff",
+                          color: "#fff",
                         },
                         "&:hover .MuiOutlinedInput-notchedOutline": {
                           borderColor: "#FBA403 !important",
-                          color: "white !important",
+                          color: "#fff !important",
                         },
                         "& input": {
-                          color: "white",
+                          color: "#fff",
                         },
                         "& label": {
                           color: "secondary.labelColor",
@@ -346,17 +347,17 @@ const DriveForm: React.FC = () => {
                   value={selectCity}
                   disabled={selectCountry === "" ? true : false}
                   sx={{
-                    color: "white",
+                    color: "#fff",
                     "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "white",
-                      color: "white",
+                      borderColor: "#fff",
+                      color: "#fff",
                     },
                     "&:hover .MuiOutlinedInput-notchedOutline": {
                       borderColor: "#FBA403 !important",
-                      color: "white !important",
+                      color: "#fff !important",
                     },
                     "& input": {
-                      color: "white",
+                      color: "#fff",
                     },
                     "& label": {
                       color: "secondary.labelColor",
