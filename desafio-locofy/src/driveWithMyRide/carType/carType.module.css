@@ -1,40 +1,50 @@
-
 .inputRadioControl input {
-    position: absolute;
-    left: -9999px;
+  position: absolute;
+  left: -9999px;
 }
 
 .inputRadioControl label {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
-    width: 147px;
-    height: 80px;
-    border: 1px solid orange;
-    border-radius: 4px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  width: 147px;
+  height: 80px;
+  border: 1px solid orange;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .inputRadioControl label svg path {
-    fill: #FBA403;
+  fill: #fba403;
 }
 
 .inputRadioControl label span {
-display: block;
-color: #fff;
+  display: block;
+  color: #fff;
 }
 
 .inputRadioControl input:checked + label {
-background-color: #FBA403;
+  background-color: #fba403;
+}
+
+.inputRadioControl input:hover + label {
+  background-color: #fba403;
 }
 
 .inputRadioControl input:checked + label svg path {
-fill: #242424;
+  fill: #242424;
+}
+
+.inputRadioControl input:hover + label svg path {
+  fill: #242424;
 }
 
 .inputRadioControl input:checked + label span {
-color: #242424;
+  color: #242424;
 }
 
+.inputRadioControl input:hover + label span {
+  color: #242424;
+}
