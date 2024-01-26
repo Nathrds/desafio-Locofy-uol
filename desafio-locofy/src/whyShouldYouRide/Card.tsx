@@ -42,7 +42,7 @@ const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText, o
             <CardActions sx={{display: 'flex', justifyContent: 'right'}}>
                 <Button
                 variant='text'
-                aria-label="Learn More"
+                aria-label={`Learn More about ${title} car`}
                 sx={{color: '#FBA403 !important', ":hover": {background: 'transparent'}}}
                 onClick={onClick}
                 >
