@@ -24,6 +24,12 @@ const StyledFieldPickup = styled(TextField)(() => ({
   '& .MuiIconButton-root': {
     color: 'rgba(255, 255, 255, 0.50)',
   },
+
+  '& .MuiInputLabel-shrink': {
+    "& .Mui-focused":{
+      color: '#FBA403 !important',
+    },
+  },
 }));
 
 const StyledFieldDestination = styled(TextField)(() => ({   
