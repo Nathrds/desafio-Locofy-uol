@@ -6,7 +6,7 @@ interface SuccessScreenProps {
   onClick: () => void;
 }
 
-const SuccessScreen = ({ onClick }) => {
+const SuccessScreen: React.FC <SuccessScreenProps> = ({ onClick }) => {
   const [data, setData] = useState<FormData>();
 
   useEffect(() => {

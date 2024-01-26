@@ -39,6 +39,8 @@ import styles from "./carType/carType.module.css";
 
 import SuccessScreen from "./successScreen/SuccessScreen";
 
+import ModalError from "./modal/Modal";
+
 const StyledForm = styled(TextField)(() => ({
   "& .MuiOutlinedInput-root": {
     color: "#fff",
@@ -59,7 +61,6 @@ const StyledForm = styled(TextField)(() => ({
       borderColor: "#FBA403 !important",
     },
   },
-  
 }));
 
 const schema = yup.object().shape({
@@ -106,6 +107,9 @@ const DriveForm: React.FC = () => {
     },
   });
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalErrorMessage, setModalErrorMessage] = useState("");
+
   const [carTypeSwitch, setCarTypeSwitch] = useState(true);
 
   function handleOnChangeSwitch(event: React.ChangeEvent<HTMLInputElement>) {
@@ -145,20 +149,36 @@ const DriveForm: React.FC = () => {
   function handleSubmitForm(data: FormData) {
     console.log(data);
 
-    const {carType, city, country, emailAddress, fullName, referralCode, driveMyOwnCar} = data
+    const {
+      carType,
+      city,
+      country,
+      emailAddress,
+      fullName,
+      referralCode,
+      driveMyOwnCar,
+    } = data;
 
-    const carTypeText = driveMyOwnCar ? carType : "Car Type not selected"
+    const carTypeText = driveMyOwnCar ? carType : "Car Type not selected";
 
     async function postCarsData() {
       async function postData() {
-        const res = await fetch("http://localhost:3000/cars", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({carType: carTypeText, city, country, emailAddress, fullName, referralCode, id: "1" }),
-        });
-        return res;
+          const res = await fetch("http://localhost:3000/cars", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              carType: carTypeText,
+              city,
+              country,
+              emailAddress,
+              fullName,
+              referralCode,
+              id: "1",
+            }),
+          });
+          return res
       }
 
       const response = await postData();
@@ -185,6 +205,10 @@ const DriveForm: React.FC = () => {
     <>
       {drivrerRegister ? (
         <>
+        <ModalError open={true}
+        errorMessage="Failed to submit the form. Please try again later."
+        onClose={() => setError(false)}
+        />
           {" "}
           (
           <form
