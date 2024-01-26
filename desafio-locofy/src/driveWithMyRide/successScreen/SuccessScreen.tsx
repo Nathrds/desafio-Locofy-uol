@@ -1,54 +1,58 @@
-import { Box, Button, Typography } from "@mui/material"
-import { useEffect } from "react"
-import {useHistory} from "react-router-dom"
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import { Box, Button, Typography } from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useEffect, useState } from "react";
 
-interface SuccessProps {
-    data: {
-        fullName: string;
-        emailAddress: string;
-        country: string;
-        city: string;
-        referralCode: string;
-        driveMyOwnCar: boolean;
-        carType: string;
-    }
+interface SuccessScreenProps {
+    onClick: () => void
 }
 
-const SuccessScreen: React.FC <SuccessProps> = ({data}) => {
-    const history = useHistory()
+const SuccessScreen = ({onClick}) => {
+  const [data, setData] = useState<FormData>();
 
-    const clearFormData = () => {
-        fetch ("http://localhost:3000/cars", {
-            method: "DELETE"
-        })
-        .then((response) => response.json())
-        .then(() => {
-            console.log("Data clared successfully")
-        })
-        .catch((error) => {
-            console.log("Error clearing data: ", error)
+  useEffect(() => {
+    async function fetchDriverData() {
+      async function fetchData() {
+        const response = await fetch("http://localhost:3000/cars/1");
+        const data = await response.json();
+        return data;
+      }
+      const driverData = await fetchData();
+      setData(driverData);
+    }
+    fetchDriverData();
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+        fetch ("http://localhost:3000/cars/1", {
+            method: "delete"
         })
     }
-
-    useEffect(() => {
-        clearFormData()
-    }, [])
-
-    const handleNewCarSubmit = () => {
-        history.push("/drive-form")
-    }
+  }, [data])
 
   return (
-    <Box>
-        <Box>
-            <CheckCircleIcon/>
+    <Box
+      style={{
+        backgroundColor: "#282828",
+        borderRadius: "10px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        maxWidth: "1324px",
+        margin: "0px auto 123px auto",
+        padding: "30px",
+      }}
+    >
+      {data && (
+        <>
+          <Box>
+            <CheckCircleIcon />
             <Typography variant="h6">
-                Welcome, {data.fullName.split(" "[0])}
+              Welcome, {data.fullName.split(" ")[0]}
             </Typography>
-        </Box>
+          </Box>
 
-        <Typography variant="body2">
+          <Typography variant="body2">
             Full Name: {data.fullName}
             Email Address: {data.emailAddress}
             Country: {data.country}
@@ -56,15 +60,43 @@ const SuccessScreen: React.FC <SuccessProps> = ({data}) => {
             Referral Code: {data.referralCode}
             Drive My Own Car: {data.driveMyOwnCar ? true : false}
             Car Type: {data.carType}
-        </Typography>
+          </Typography>
 
-        <Button
-        onClick={handleNewCarSubmit}
-        >
-            Submit a New Car
-        </Button>
+          <Button onClick={onClick}>Submit a New Car</Button>
+        </>
+      )}
     </Box>
-  )
-}
+  );
+};
 
-export default SuccessScreen
+export default SuccessScreen;
+
+// import { useEffect } from "react"
+
+// interface SuccessProps {
+//     onClick?: () => void
+// }
+
+// const SuccessScreen: React.FC<SuccessProps> = ({onClick}) => {
+
+//     const clearFormData = () => {
+//         fetch ("http://localhost:3000/cars", {
+//             method: "DELETE"
+//         })
+//         .then((response) => response.json())
+//         .then(() => {
+//             console.log("Data clared successfully")
+//         })
+//         .catch((error) => {
+//             console.log("Error clearing data: ", error)
+//         })
+//     }
+
+//     useEffect(() => {
+//         clearFormData()
+//     }, [])
+//     }
+
+//   return <p>Aqui</p>
+
+// export default SuccessScreen
