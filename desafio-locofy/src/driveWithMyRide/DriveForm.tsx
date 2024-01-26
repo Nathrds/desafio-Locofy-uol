@@ -232,7 +232,7 @@ const DriveForm: React.FC = () => {
 
               <Box display="flex" flexDirection="column">
                 <Typography
-                  variant="h5"
+                  variant="h2"
                   sx={{
                     fontSize: "27px",
                     color: "#FBA403",
@@ -426,7 +426,7 @@ const DriveForm: React.FC = () => {
               {carTypeSwitch && (
                 <Box>
                   <Typography
-                    variant="h5"
+                    variant="h3"
                     sx={{
                       color: "#FBA403",
                       fontSize: "20px",

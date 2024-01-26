@@ -15,6 +15,7 @@ const Footer = () => {
             width={'43%'}
             />
             <Typography
+            variant="h3"
             sx={{
                 color: '#B3B3B3',
                 fontSize: '16px',
@@ -55,7 +56,7 @@ const Footer = () => {
             >
             <Box marginRight={'15%'}>
                 <Typography 
-                variant="h5"
+                variant="h2"
                 color="#fff"
                 fontSize='20px'
                 fontWeight={500}
@@ -71,21 +72,29 @@ const Footer = () => {
                 fontWeight={400}
                 >
                     <Typography
+                    variant="h3"
                     marginBottom={'12px'}
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         About Us
                     </Typography>
                     <Typography
+                    variant="h3"
                     marginBottom={'12px'}
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         News
                     </Typography>
                     <Typography
                     marginBottom={'12px'}
+                    variant="h3"
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         Careers
                     </Typography>
                     <Typography
+                    variant="h3"
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         How we work
                     </Typography>
@@ -93,7 +102,7 @@ const Footer = () => {
             </Box>
             <Box marginRight={'15%'}>
                 <Typography 
-                variant="h5"
+                variant="h2"
                 color="#fff"
                 fontSize='20px'
                 fontWeight={500}
@@ -110,20 +119,28 @@ const Footer = () => {
                 >
                     <Typography
                     marginBottom={'12px'}
+                    variant="h3"
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         FAQ
                     </Typography>
                     <Typography
                     marginBottom={'12px'}
+                    variant="h3"
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         US Office
                     </Typography>
                     <Typography
                     marginBottom={'12px'}
+                    variant="h3"
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         Asia Office
                     </Typography>
                     <Typography
+                    variant="h3"
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         Help Center
                     </Typography>
@@ -131,7 +148,7 @@ const Footer = () => {
             </Box>
             <Box marginRight={'15%'}>
                 <Typography 
-                variant="h5"
+                variant="h2"
                 color="#fff"
                 fontSize='20px'
                 fontWeight={500}
@@ -148,15 +165,21 @@ const Footer = () => {
                 >
                     <Typography
                     marginBottom={'12px'}
+                    variant="h3"
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         Become a partner
                     </Typography>
                     <Typography
                     marginBottom={'12px'}
+                    variant="h3"
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         Partner Support
                     </Typography>
                     <Typography
+                    variant="h3"
+                    sx={{fontSize: '16px', fontWeight: '400'}}
                     >
                         Mobile app links
                     </Typography>
