@@ -86,7 +86,7 @@ const BookWithMyRide = () => {
       flexDirection='column'
       >
         <Typography
-        variant="h4"
+        variant="h2"
         sx={{
           fontSize: '26px',
           textTransform: 'uppercase',
@@ -97,7 +97,7 @@ const BookWithMyRide = () => {
         </Typography>
 
         <Typography
-        variant="h2"
+        variant="h1"
         sx={{
           fontSize: '50px',
           color: "#fff",
@@ -124,7 +124,7 @@ const BookWithMyRide = () => {
         marginTop='30px'
         >
           <Typography 
-          variant="h5"
+          variant="h3"
           color='#fff'
           fontSize='24px'
           fontWeight='700'

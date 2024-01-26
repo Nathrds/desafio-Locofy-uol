@@ -294,6 +294,8 @@ const DriveForm: React.FC = () => {
                           color: "secondary.labelColor",
                         },
                       }}
+                      id="country"
+                      aria-label="Select Country"
                     >
                       {allCountry.map((country, index) => (
                         <MenuItem value={country} key={index}>
@@ -337,6 +339,8 @@ const DriveForm: React.FC = () => {
                       color: "secondary.labelColor",
                     },
                   }}
+                  id="city"
+                  aria-label="Select City"
                 >
                   {allCity.map((city, index) => (
                     <MenuItem value={city} key={index}>
