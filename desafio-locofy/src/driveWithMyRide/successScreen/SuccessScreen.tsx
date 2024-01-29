@@ -8,34 +8,41 @@ interface SuccessScreenProps {
 }
 
 const SuccessScreen: React.FC<SuccessScreenProps> = ({ onClick }) => {
+  // Estado para armazenar os dados do driver
   const [data, setData] = useState<FormData>();
-
+  // Estado para controlar se ocorreu um erro na requisição
   const [error, setError] = useState(false);
 
+  // useEffect para buscar dados do driver ao montar o componente
   useEffect(() => {
     async function fetchDriverData() {
       async function fetchData() {
+        // Requisição para obter dados do driver
         const response = await fetch("http://localhost:3000/cars/1");
-        if (!response.ok) {
+        if (!response.ok) { // Se a requisição não foi bem-sucedida, seta o estado de erro
           setError(true);
         }
+        // Parse do JSON e retorno dos dados
         const data = await response.json();
         return data;
       }
+      // Chamada da função fetchData e atualização do estado de dados
       const driverData = await fetchData();
       setData(driverData);
     }
-    fetchDriverData();
-  }, []);
+    fetchDriverData(); // Chamada da função para buscar dados do driver
+  }, []); // O array de dependências vazio indica que esse efeito só é executado uma vez, na montagem do componente
 
   useEffect(() => {
     if (data) {
+      // Requisição para deletar dados do driver
       fetch("http://localhost:3000/cars/1", {
         method: "delete",
       });
     }
-  }, [data]);
-
+  }, [data]); // O efeito é acionado sempre que o estado de data é atualizado
+  
+  // Retorno do JSX que representa a estrutura visual do componente
   return (
     <Box
       style={{

@@ -41,6 +41,7 @@ import SuccessScreen from "./successScreen/SuccessScreen";
 
 import ModalError from "./modal/Modal";
 
+// Estilo customizado para o TextField utilizando o styled do Material-UI
 const StyledForm = styled(TextField)(() => ({
   "& .MuiOutlinedInput-root": {
     color: "#fff",
@@ -61,9 +62,9 @@ const StyledForm = styled(TextField)(() => ({
       borderColor: "#FBA403 !important",
     },
   },
-  }
-));
+}));
 
+// Esquema de validação utilizando o yup
 const schema = yup.object().shape({
   fullName: yup
     .string()
@@ -83,6 +84,7 @@ const schema = yup.object().shape({
   }),
 });
 
+// Interface representando a estrutura dos dados do formulário
 export interface FormData {
   fullName: string;
   emailAddress: string;
@@ -93,8 +95,9 @@ export interface FormData {
   carType: string;
 }
 
+// Componente principal do formulário
 const DriveForm: React.FC = () => {
-  const {
+  const { // Configuração do react-hook-form
     register,
     handleSubmit,
     reset,
@@ -108,29 +111,35 @@ const DriveForm: React.FC = () => {
     },
   });
 
+  // Estado para controle do switch (carro próprio ou não)
   const [carTypeSwitch, setCarTypeSwitch] = useState(true);
 
+  // Função para lidar com a mudança no switch
   function handleOnChangeSwitch(event: React.ChangeEvent<HTMLInputElement>) {
     setCarTypeSwitch(event.target.checked);
   }
 
   console.log(errors);
 
+  // Estado para armazenar dados sobre países e cidades
   const [countryCity, setCountryCity] = useState<typeof dataBase>();
   const [allCountry, setAllCountry] = useState<Array<string>>([]);
   const [allCity, setAllCity] = useState<Array<string>>([]);
   const [selectCountry, setSelectCountry] = useState<string>("");
   const [selectCity, setSelectCity] = useState<string>("");
 
+  // Estado para controle do registro do motorista e erros
   const [drivrerRegister, setDriverRegister] = useState(true);
   const [error, setError] = useState(false);
 
+  // Efeito colateral para carregar dados do arquivo JSON e preencher os países
   useEffect(() => {
     setCountryCity(dataBase);
     const countryKeys = Object.keys(dataBase);
     setAllCountry(countryKeys);
   }, []);
 
+  // Função para lidar com a mudança de país
   function handleChangeCountry(event: SelectChangeEvent) {
     const country = event.target.value as string;
     setSelectCountry(country);
@@ -139,14 +148,16 @@ const DriveForm: React.FC = () => {
     setAllCity(cities);
   }
 
+  // Função para lidar com a mudança de cidade
   function handleChangeCity(event: SelectChangeEvent) {
     const city = event.target.value as string;
     setSelectCity(city);
   }
 
+  // Função para lidar com o envio do formulário
   function handleSubmitForm(data: FormData) {
     console.log(data);
-
+    
     const {
       carType,
       city,
@@ -156,9 +167,9 @@ const DriveForm: React.FC = () => {
       referralCode,
       driveMyOwnCar,
     } = data;
-
+    //lógica para lidar com o envio do formulário
     const carTypeText = driveMyOwnCar ? carType : "Car Type not selected";
-
+    
     async function postCarsData() {
       async function postData() {
         const res = await fetch("http://localhost:3000/cars", {
@@ -194,7 +205,7 @@ const DriveForm: React.FC = () => {
     }
     postCarsData();
   }
-
+  // Função para lidar com a submissão de um novo carro
   function handleSubmitNewCar() {
     setDriverRegister(true);
   }
@@ -535,6 +546,7 @@ const DriveForm: React.FC = () => {
           )
         </>
       ) : (
+        // Renderização da tela de sucesso após o registro
         <SuccessScreen onClick={handleSubmitNewCar} />
       )}
     </>

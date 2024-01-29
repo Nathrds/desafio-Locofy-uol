@@ -1,7 +1,8 @@
 import { Box, CardContent, Typography } from "@mui/material"
 import Card from './Card'
 
-const BestInClassRides = () => {
+const BestInClassRides = () => { //Define um componente funcional 
+  // função que recebe o tipo de carro como argumento e abre uma nova janela do navegador para realizar uma pesquisa no Google com base no tipo de carro
   const learnMoreClick = (carType: string) => {
     const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(`${carType} car`)}`;
     window.open(googleSearchUrl, '_blank');

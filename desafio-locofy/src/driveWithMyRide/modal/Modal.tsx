@@ -15,17 +15,20 @@ const style = {
   p: 4,
 };
 
+// propriedades que inclui: open (indicando se o modal está aberto), onClose (função de fechamento do modal), e errorMessage (mensagem de erro a ser exibida)
 interface ModalErrorProps {
   open: boolean;
   onClose: () => void;
   errorMessage: string;
 }
 
+// função que recebe as propriedades open, onClose, e errorMessage
 const Modal: React.FC<ModalErrorProps> = ({ open, onClose, errorMessage }) => {
-  function handleClose() {
+  function handleClose() { //chama a função onClose quando é invocada
     onClose();
   }
 
+  //Renderiza o componente Box
   return (
     <Box>
       <ModalMui

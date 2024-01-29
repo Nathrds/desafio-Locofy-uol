@@ -1,5 +1,6 @@
 import {Box, Button, CardActions, CardContent, CardMedia, Card as MuiCard, Typography} from '@mui/material'
 
+//  propriedades que incluem title (título), description (descrição), imageSrc (caminho da imagem), buttonText (texto do botão) e onClick (função de clique)
 interface CardProps {
     title: string;
     description: string;
@@ -8,6 +9,7 @@ interface CardProps {
     onClick: () => void;
 }
 
+// Define o componente Card como uma função de componente React, recebendo as propriedades especificadas na interface CardProps
 const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText, onClick}) => {
   return (
     <Box 
@@ -16,8 +18,8 @@ const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText, o
         <MuiCard sx={{backgroundColor: '#383838', margin: '12px'}}>
             <CardMedia 
             component="img"
-            image={(`../../src/assets/${imageSrc}`)}
-            title={title}
+            image={(`../../src/assets/${imageSrc}`)} // imagem dinâmica
+            title={title} // título dinâmico
             sx={{height: '200px'}}
             />
             <CardContent>
@@ -28,7 +30,7 @@ const Card: React.FC <CardProps> = ({title, description, imageSrc, buttonText, o
                 fontSize='16px'
                 fontWeight='500'
                 >
-                    {title}
+                    {title} 
                 </Typography>
                 <Typography
                 variant='body2'
